@@ -1,0 +1,22 @@
+<div class="ui basic segment">
+  <h1 class="ui dividing header">
+    <%= link "News", to: Routes.admin_news_item_path(@conn, :index) %>
+    &raquo;
+    <%= link "Issues", to: Routes.admin_news_issue_path(@conn, :index) %>
+    &raquo; Edit
+  <%= if @issue.published do %>
+    <%= link "(View)",
+      to: Routes.news_issue_path(@conn, :show, @issue.slug),
+      class: "view" %>
+  <% else %>
+    <%= link("(Preview)",
+      to: Routes.news_issue_path(@conn, :preview, @issue.slug),
+      rel: "external",
+      class: "view") %>
+  <% end %>
+  </h1>
+</div>
+
+<div class="ui basic segment text container">
+  <%= render("_form.html", Map.merge(assigns, %{action: Routes.admin_news_issue_path(@conn, :update, @issue)})) %>
+</div>

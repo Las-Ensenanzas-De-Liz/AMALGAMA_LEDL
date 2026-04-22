@@ -1,0 +1,145 @@
+<%= form_for @changeset, @action, [class: "ui form", multipart: true], fn f -> %>
+  <div class="field required <%= AdminHelpers.error_class(f, :title) %>">
+    <%= label(f, :title, "Title") %>
+    <%= text_input(f, :title, placeholder: "10 Best Blog Post Titles") %>
+    <%= AdminHelpers.error_message(f, :title) %>
+  </div>
+
+  <div class="field <%= AdminHelpers.error_class(f, :subtitle) %>">
+    <%= label(f, :subtitle, "Subtitle") %>
+    <%= text_input(f, :subtitle, placeholder: "your path to blogging success") %>
+    <%= AdminHelpers.error_message(f, :subtitle) %>
+  </div>
+
+  <div class="field required <%= AdminHelpers.error_class(f, :slug) %>">
+    <%= label(f, :slug, "Slug") %>
+    <%= text_input(f, :slug, placeholder: "10-best-blog-post-titles", readonly: f.data.published) %>
+    <%= AdminHelpers.error_message(f, :slug) %>
+  </div>
+
+  <div class="two fields">
+    <div class="field required <%= AdminHelpers.error_class(f, :author_id) %>">
+      <%= label(f, :author_id, "Author") %>
+      <div class="ui fluid remote author search selection dropdown">
+        <%= hidden_input(f, :author_id) %>
+        <i class="dropdown icon"></i>
+        <%= if AdminHelpers.is_loaded(f.data.author) do %>
+          <div class="selected text"><%= f.data.author.name %></div>
+        <% else %>
+          <div class="default text">Select Author</div>
+        <% end %>
+      </div>
+      <%= AdminHelpers.error_message(f, :author_id) %>
+    </div>
+
+    <div class="field <%= AdminHelpers.error_class(f, :editor_id) %>">
+      <%= label(f, :editor_id, "Editor") %>
+      <div class="ui fluid remote editor search selection dropdown">
+        <%= hidden_input(f, :editor_id) %>
+        <i class="dropdown icon"></i>
+        <%= if AdminHelpers.is_loaded(f.data.editor) do %>
+          <div class="selected text"><%= f.data.editor.name %></div>
+        <% else %>
+          <div class="default text">Select Editor</div>
+        <% end %>
+      </div>
+      <%= AdminHelpers.error_message(f, :editor_id) %>
+    </div>
+  </div>
+
+  <div class="field <%= AdminHelpers.error_class(f, :slug) %>">
+    <%= label(f, :canonical_url, "Canonical URL") %>
+    <%= text_input(f, :canonical_url) %>
+    <%= AdminHelpers.error_message(f, :canonical_url) %>
+  </div>
+
+  <div class="field">
+    <%= label f, :topics %>
+
+    <div class="ui horizontal selection list js-post_topics">
+      <%= inputs_for f, :post_topics, fn i -> %>
+        <% topic = AdminHelpers.load_from_form(i, Topic, :topic) %>
+        <div class="item <%= if AdminHelpers.is_persisted(i.data), do: "persisted" %>">
+          <%= hidden_input i, :topic_id %>
+          <%= hidden_input i, :position, class: "js-position" %>
+
+          <div class="content">
+            <a class="ui label">
+              <%= topic.name %>
+              <span class="js-remove">
+                <i class="delete icon"></i>
+                <%= hidden_input(i, :delete) %>
+              </span>
+            </a>
+          </div>
+
+          <%= AdminHelpers.error_message(i, :topic_id) %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="ui search">
+      <div class="ui left icon input">
+        <input class="prompt" type="text" placeholder="Add a Topic">
+        <i class="block layout icon"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="field <%= AdminHelpers.error_class(f, :tldr) %>">
+    <label for="tldr">
+      TLDR <%= AdminHelpers.help_icon("Used for the associated news item's teaser content") %>
+    </label>
+    <%= textarea(f, :tldr, placeholder: "Tweet-sized. Markdown enabled.", rows: 2) %>
+    <%= AdminHelpers.error_message(f, :tldr) %>
+  </div>
+
+  <div class="field">
+    <label for="image">
+      Share Image
+      <%= AdminHelpers.help_icon("1200x630 or larger (with same ratio).") %>
+      <%= AdminHelpers.file_toggle_buttons() %>
+    </label>
+    <%= file_input(f, :image) %>
+    <%= AdminHelpers.error_message(f, :image) %>
+
+  <%= if f.data.image do %>
+    <img src="<%= image_url(f.data, :large) %>" style="width: 100%;">
+  <% end %>
+  </div>
+
+  <div class="field <%= AdminHelpers.error_class(f, :body) %>">
+    <%= label(f, :body) %>
+    <%= textarea(f, :body, placeholder: "Markdown enabled.", rows: 10) %>
+    <%= AdminHelpers.error_message(f, :body) %>
+  </div>
+
+  <div class="field <%= AdminHelpers.error_class(f, :published_at) %>">
+    <%= label(f, :published_at) do %>
+      Publish Time <%= AdminHelpers.help_icon("Select a future time and click 'Publish' to schedule") %>
+    <% end %>
+    <%= AdminHelpers.semantic_calendar_field(f, :published_at) %>
+    <%= AdminHelpers.error_message(f, :published_at) %>
+  </div>
+
+  <div class="ui hidden divider"></div>
+
+  <div class="ui equal width stackable grid">
+  <%= if !AdminHelpers.is_persisted(f.data) do %>
+    <div class="column"><%= AdminHelpers.submit_button(:primary, "Create") %></div>
+    <div class="column"><%= AdminHelpers.submit_button(:secondary, "Create and Close", AdminHelpers.next_param(@conn, Routes.admin_post_path(@conn, :index))) %></div>
+  <% else %>
+    <div class="column"><%= AdminHelpers.submit_button(:primary, "Save", SharedHelpers.current_path(@conn)) %></div>
+    <div class="column">
+    <%= if Policies.Admin.Post.index(@current_user) do %>
+      <%= AdminHelpers.submit_button(:secondary, "Save and Close", AdminHelpers.next_param(@conn)) %>
+    <% end %>
+    </div>
+  <% end %>
+  <% end %>
+    <div class="column">
+    <%= if Policies.Admin.Post.publish(@current_user, @changeset.data) do %>
+      <%= render("_publish_buttons.html", assigns) %>
+    <% end %>
+    </div>
+  </div>

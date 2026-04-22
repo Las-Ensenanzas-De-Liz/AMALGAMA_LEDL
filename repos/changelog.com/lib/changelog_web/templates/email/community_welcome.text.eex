@@ -1,0 +1,12 @@
+<%= greeting(@person) %>
+
+
+Welcome! Click below to confirm your account. Then you can:
+
+<%= render("_account_actions.text", assigns) %>
+
+We don't use passwords. Each time you sign in we’ll send you a temporary link to your email address. That’s one less password to worry about (yay!). Here’s your first one:
+
+<%= render("_sign_in_link.text", assigns) %>
+
+💚, Logbot

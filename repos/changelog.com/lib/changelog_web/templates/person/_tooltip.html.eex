@@ -1,0 +1,32 @@
+<div class="tooltip">
+  <div class="tooltip-arrow"></div>
+  <div class="tooltip-wrap">
+    <div class="profile_tooltip">
+      <%= link(to: profile_path(@person), title: "View Profile", class: "profile_tooltip-header") do %>
+        <%= SharedHelpers.lazy_image(avatar_url(@person), @person.name, class: "profile_tooltip-header-avatar") %>
+        <div class="profile_tooltip-header-info">
+          <p class="profile_tooltip-header-info-name"><%= @person.name %></p>
+          <p class="profile_tooltip-header-info-location"><%= @person.location %></p>
+        </div>
+      </a>
+      <% end %>
+      <div class="profile_tooltip-info">
+        <p><%= @person |> bio_as_html() |> raw() %></p>
+        <ul class="profile_tooltip-info-links">
+        <%= if @person.website do %>
+          <li><%= link("Website", to: @person.website, rel: "external ugc") %></li>
+        <% end %>
+        <%= if @person.twitter_handle do %>
+          <li><%= link("Twitter", to: SharedHelpers.twitter_url(@person), rel: "external ugc") %></li>
+        <% end %>
+        <%= if @person.github_handle do %>
+          <li><%= link("GitHub", to: SharedHelpers.github_url(@person), rel: "external ugc") %></li>
+        <% end %>
+        <%= if @person.linkedin_handle do %>
+          <li><%= link("LinkedIn", to: SharedHelpers.linkedin_url(@person), rel: "external ugc") %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

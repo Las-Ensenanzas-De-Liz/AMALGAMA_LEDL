@@ -1,0 +1,15 @@
+<tr>
+  <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
+    <p><%= greeting(@person) %></p>
+
+    <p>The episode of <%= @podcast.name %> that you requested is now live! 💪</p>
+
+    <p>Listen and discuss here: <%= link(EpisodeView.share_url(@episode), to: EpisodeView.share_url(@episode)) %></p>
+
+    <p>We'd love to hear what you think!</p>
+
+    <p>Thanks for the great suggestion.</p>
+
+    <p>💚, Logbot</p>
+  </td>
+</tr>

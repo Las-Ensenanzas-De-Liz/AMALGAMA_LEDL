@@ -1,0 +1,17 @@
+<section class="signup">
+  <div class="signup-content">
+    <div class="signup-icons">
+      <div class="signup-icons-item signup-icons-item--news"></div>
+      <div class="signup-icons-item signup-icons-item--podcasts"></div>
+    </div>
+    <h1 class="signup-heading">You&rsquo;re subscribing to <%= @newsletter.name %></h1>
+    <p class="signup-text"><%= @newsletter.description %></p>
+    <p class="signup-text">7 emails per week — Delivered daily at 10pm US Central</p>
+  </div>
+</section>
+
+<%= if @current_user do %>
+  <%= link("Manage Subscriptions", to: Routes.home_path(@conn, :show), class: "button_large") %>
+<% else %>
+  <%= render(SharedView, "_subscribe_form.html", conn: @conn) %>
+<% end %>

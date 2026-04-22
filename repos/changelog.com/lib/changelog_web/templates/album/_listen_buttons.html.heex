@@ -1,0 +1,17 @@
+<div class="show-header-subscribe">
+  <div class="show-header-subscribe-buttons">
+  <%= for {name, url} <- listen_links(@album) do %>
+    <%= link(name,
+      to: url,
+      class: "show-header-subscribe-buttons-item show-header-subscribe-buttons-item--#{StringKit.dasherize(name)}",
+      title: "Listen on #{name}") %>
+  <% end %>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <%= for {name, url} <- buy_links(@album) do %>
+    <%= link(name,
+      to: url,
+      class: "show-header-subscribe-buttons-item show-header-subscribe-buttons-item--#{StringKit.dasherize(name)}",
+      title: "Buy via #{name}") %>
+  <% end %>
+  </div>
+</div>

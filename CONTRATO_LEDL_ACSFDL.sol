@@ -1,23 +1,25 @@
 // SPDX-License-Identifier: MIT
-// Propiedad Intelectual e Inalienable: J Andres Resendez R
+// Propiedad Inalienable: J Andres Resendez R
 pragma solidity ^0.8.20;
 
-contract LEDL_Licencia_Perpetua {
-    string public constant LICENCIA_HASH = "c3d9109396a414c2f61cfed7c5ca46414e8fdcc94adfacf19e559e637f0dabfc";
-    address public immutable comandanteSupremo;
-    bool public bloqueado = false;
+contract LEDL_Soberania_Total {
+    string public constant MANIFIESTO_HASH = "ba6c2de344c48ae28b00827247021282e7c4b6f68268013a13dbec99cee52a21";
+    uint256 public constant CAPITAL_CERTIFICADO = 4106800000000000000; // 4.1068 ETH en Wei
+    string public constant ORCID = "0009-0007-3528-9413";
+    
+    address public immutable comandante;
+    bool public sistemaSellado = false;
+
+    event CapitalVinculado(uint256 cantidad, string hashCertificado);
 
     constructor() {
-        comandanteSupremo = msg.sender;
+        comandante = msg.sender;
     }
 
-    modifier soloSoberano() {
-        require(msg.sender == comandanteSupremo, "Acceso Denegado");
-        _;
-    }
-
-    // Función para sellar la licencia para siempre
-    function sellarSistema() public soloSoberano {
-        bloqueado = true;
+    // Vinculación definitiva del capital a la lógica de dispersión
+    function sellarYVincular(string memory _hashCertificado) public {
+        require(msg.sender == comandante, "Solo JARR");
+        sistemaSellado = true;
+        emit CapitalVinculado(CAPITAL_CERTIFICADO, _hashCertificado);
     }
 }

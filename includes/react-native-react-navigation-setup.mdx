@@ -1,0 +1,55 @@
+```jsx {5, 20} {tabTitle: Functional Components}
+import * as Sentry from "@sentry/react-native";
+import { NavigationContainer } from "@react-navigation/native";
+
+const navigationIntegration = Sentry.reactNavigationIntegration({
+  enableTimeToInitialDisplay: true,
+});
+
+Sentry.init({
+  dsn: "___PUBLIC_DSN___",
+  integrations: [navigationIntegration],
+})
+
+function App = () => {
+  const containerRef = React.useRef();
+
+  return (
+    <NavigationContainer
+      ref={containerRef}
+      onReady={() => {
+        navigationIntegration.registerNavigationContainer(containerRef);
+      }}>
+    </NavigationContainer>
+  );
+};
+```
+
+```jsx {5, 21} {tabTitle: Class Components}
+import * as Sentry from "@sentry/react-native";
+import { NavigationContainer } from "@react-navigation/native";
+
+const navigationIntegration = Sentry.reactNavigationIntegration({
+  enableTimeToInitialDisplay: true,
+});
+
+Sentry.init({
+  dsn: "___PUBLIC_DSN___",
+  integrations: [navigationIntegration],
+})
+
+class App extends React.Component {
+  containerRef = React.createRef();
+
+  render() {
+    return (
+      <NavigationContainer
+        ref={this.containerRef}
+        onReady={() => {
+          navigationIntegration.registerNavigationContainer(this.containerRef);
+        }}>
+      </NavigationContainer>
+    );
+  }
+}
+```

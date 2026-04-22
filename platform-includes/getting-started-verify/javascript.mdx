@@ -1,0 +1,11 @@
+```javascript
+setTimeout(() => {
+  throw new Error("Sentry Test Error");
+});
+```
+
+<Alert>
+
+Errors triggered from within Browser DevTools are sandboxed and won't trigger an error handler. Place the snippet directly in your code instead.
+
+</Alert>

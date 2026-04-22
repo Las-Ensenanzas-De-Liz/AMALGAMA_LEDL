@@ -1,0 +1,68 @@
+---
+layout: page
+no_add_title_heading: true
+---
+
+<header class="home-header">
+  {%- if page.title and page.title != "" -%}
+    <h1 class="home-title">{{- page.title | escape -}}</h1>
+  {%- endif -%}
+  <style>
+    .first { font-weight: bold; }
+    .wiki { text-align: center; }
+
+    img { margin: 18px auto; max-width:100%; height:auto; }
+    img.phone:first-of-type { margin-top: 3em; display: block; }
+    @media only screen and (min-width: 500px) {
+      img.phone:first-of-type { margin-top: 0; margin-bottom: 0; margin-left: 1em; margin-right: 1em; float: right; }
+    }
+    .badges { text-align: center; margin-top: 0; margin-left: auto; margin-right: auto; }
+
+    .fade-out { opacity: 0; transition: opacity 1s; }
+    .fade-in { opacity: 1; transition: opacity 1s; }
+  </style>
+</header>
+
+<div class="home">
+  {{ content }}
+
+  <p>{%- include t.html key="views.home.intro" -%}</p>
+
+  <div class="badges">
+    <a href="https://github.com/termux/termux-app#github">
+      <img alt="Get it on Github" src="/assets/globals/hosts/get-it-on-github.png" width="215" height="83"/></a>
+    <a href="https://github.com/termux/termux-app#f-droid">
+      <img alt="Get it on F-Droid" src="/assets/globals/hosts/get-it-on-fdroid.png" width="215" height="83"/></a>
+    <!--<a href="https://github.com/termux/termux-app#google-play-store-deprecated">
+      <img alt="Get it on Google Play" src="/assets/globals/hosts/get-it-on-google-play.png" width="215" height="83"/></a>-->
+  </div>
+
+  <img class="phone" src="/assets/globals/home/htop_framed.png" data-sliderimages="/assets/globals/home/vim-main_framed.png,/assets/globals/home/hello_framed.png,/assets/globals/home/weechat-with-keyboard_framed.png" alt="" width="305" height="600"/>
+
+  <p><strong class="first">{%- include t.html key="views.home.features.secure.title" -%}</strong> 
+  {% include t.html key="views.home.features.secure.description" %}</p>
+
+  <p><strong class="first">{%- include t.html key="views.home.features.feature_packed.title" -%}</strong>
+  {% include t.html key="views.home.features.feature_packed.description" %}</p>
+
+  <p><strong class="first">{%- include t.html key="views.home.features.customizable.title" -%}</strong>
+  {% include t.html key="views.home.features.customizable.description" %}</p>
+
+  <p><strong class="first">{%- include t.html key="views.home.features.explorable.title" -%}</strong>
+  {% include t.html key="views.home.features.explorable.description" %}</p>
+
+  <p><strong class="first">{%- include t.html key="views.home.features.portable.title" -%}</strong>
+  {% include t.html key="views.home.features.portable.description" %}</p>
+
+  <p><strong class="first">{%- include t.html key="views.home.features.scalable.title" -%}</strong>
+  {% include t.html key="views.home.features.scalable.description" %}</p>
+
+  <p><strong class="first">{%- include t.html key="views.home.features.tinkerable.title" -%}</strong>
+  {% include t.html key="views.home.features.tinkerable.description" %}</p>
+
+  <div class="badges">
+  <a href="https://www.hetzner.com/cloud"> 
+    <img alt="Hosted by Hetzner" src="/assets/globals/hosts/hosted-by-hetzner.png" width="215" height="83"/></a>
+  </div>
+</div>
+<script src="/assets/globals/home/slider.js"></script>

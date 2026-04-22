@@ -1,0 +1,77 @@
+name: Update library
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  push:
+    paths-ignore:
+      - "src/**"
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  check-proposals:
+    name: Check if library is up to date
+    runs-on: ubuntu-latest
+    env:
+      FOUNDRY_PROFILE: ci
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pin@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@8f1998e9878d786675189ef566a2e4bf24869773 # pin@v1
+        with:
+          version: nightly
+
+      - uses: bgd-labs/github-workflows/.github/actions/setup-node@main
+
+      - uses: bgd-labs/action-rpc-env@main
+        with:
+          ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
+
+      - name: Generate library
+        run: npm run generate:addresses
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@25b6871a4ebe4c3585f47c7a687ac6fd0ec0e32d # pin@00897e0bc2ceba9f86c9b0fda8429107112e6fa5
+        with:
+          author: Cache-bot <noreply@github.com>
+          committer: Cache-bot <noreply@github.com>
+          commit-message: "fix(cache): automated cache update - updated addresses"
+          delete-branch: true
+          title: "fix(cache): automated cache update - updated addresses"
+
+      - name: Post to a Slack channel
+        id: slack
+        if: failure()
+        uses: slackapi/slack-github-action@37ebaef184d7626c5f204ab8d3baff4262dd30f0 # pin@v1.27.0
+        with:
+          # Slack channel id, channel name, or user id to post message.
+          # See also: https://api.slack.com/methods/chat.postMessage#channels
+          channel-id: "C03FJHE0B4Y"
+          # For posting a rich message using Block Kit
+          payload: |
+            {
+              "text": "GitHub Action build result: ${{ job.status }}\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+              "blocks": [
+                  {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "GitHub Action build result: ${{ job.status }}\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+                }]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

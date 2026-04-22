@@ -1,0 +1,23 @@
+📜 Documentación Legal y Meta-Información (Actualizada)
+Esta sección integra los datos y las directrices que has guardado sobre los pilares conceptuales y legales del proyecto.
+1. Licencia de Uso de Código
+Esta licencia define los términos de uso para el código asociado al proyecto (e.g., server.js, index-asistente.html).
+Elemento Descripción
+Nombre Oficial Licencia Las Enseñanzas De Liz
+Naturaleza Irremplazable e Irrevocable.
+Aplicación Uso del Código de Las Enseñanzas de Liz a tu código binario (Código objeto).
+Estatus Activa y vigente.
+2. Marco Conceptual y Constitucional de la Robótica
+Este documento establece el marco filosófico y de principios bajo el cual opera el sistema automatizado del proyecto (el "Robot" o "Asistente EnsDeLiz").
+Elemento Descripción
+Título Constitución del Robot y/o la Robótica Versión 1.0
+Autoría Escrita por J. Andrés Reséndez R.
+Fecha de Registro 2025-04-28
+Aplicación al Proyecto Rige la operación del algoritmo de asignación (Algoritmo EnsDeLiz) y las interacciones del chatbot, garantizando la ética, transparencia y servicio al cliente definidas.
+3. Directriz Lingüística de Operación
+Esta directriz establece el idioma oficial para todas las comunicaciones, interfaces y documentación del proyecto.
+Elemento Descripción
+Idioma Principal Español de México (es-MX)
+Aplicación Interfaz del Asistente EnsDeLiz, notificaciones al cliente, comunicaciones con repartidores y documentación interna.
+Vigencia 2025-09-05 (Establecida como directriz permanente).
+Esta documentación asegura que el proyecto "Te hacemos los mandados VALLE DEL ROBLE" no solo tiene una lógica técnica y operativa sólida, sino que también está respaldado por un marco legal y conceptual definido.

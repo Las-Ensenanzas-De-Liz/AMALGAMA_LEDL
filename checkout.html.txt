@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Pedido | Te hacemos los mandados VALLE DEL ROBLE</title>
+    <style>
+        /* Estilos CSS BÁSICOS */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f4f8; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; }
+        .container { background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); width: 100%; max-width: 500px; }
+        h1 { color: #007bff; text-align: center; margin-bottom: 20px; }
+        label { display: block; margin-top: 15px; font-weight: 600; color: #333; }
+        input[type="number"], input[type="text"], select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .radio-group { display: flex; gap: 20px; margin-top: 10px; }
+        .radio-group label { font-weight: 400; margin-top: 0; }
+        #direccion-group { display: none; } /* Oculto por defecto */
+        .resultado { background-color: #e9f7ef; border: 1px solid #c8e6c9; padding: 15px; border-radius: 6px; margin-top: 25px; }
+        .resultado p { margin: 5px 0; }
+        .total { font-size: 1.4em; font-weight: bold; color: #28a745; margin-top: 10px; }
+        button { background-color: #28a745; color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1em; width: 100%; margin-top: 20px; transition: background-color 0.3s; }
+        button:hover { background-color: #218838; }
+        .alerta { color: #dc3545; margin-top: 10px; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Datos de Entrega 🚚</h1>
+        <p>⚠️ **Paso 2:** Ingresa los datos de tu pedido armado en **Treinta Shop**.</p>
+        
+        <form id="checkout-form">
+            
+            <label for="subtotal">Subtotal de tu Compra en Treinta Shop (MXN):</label>
+            <input type="number" id="subtotal" placeholder="Ej: 150.00" min="1" step="0.01" required>
+
+            <label>Tipo de Entrega:</label>
+            <div class="radio-group">
+                <input type="radio" id="recolecta" name="tipo_entrega" value="RECOLECTA" onchange="mostrarOcultarDireccion()" required>
+                <label for="recolecta">Recolección en Tienda</label>
+
+                <input type="radio" id="domicilio" name="tipo_entrega" value="DOMICILIO" onchange="mostrarOcultarDireccion()">
+                <label for="domicilio">Servicio a Domicilio</label>
+            </div>
+            
+            <div id="direccion-group">
+                <label for="direccion">Tu Dirección en Valle del Roble:</label>
+                <input type="text" id="direccion" placeholder="Calle, Número y Referencias">
+                
+                <label for="distancia">Distancia al Negocio (Simulada para prueba, km):</label>
+                <input type="number" id="distancia" placeholder="Ej: 2.3" min="0.1" step="0.1">
+
+                 <label for="vehiculo">Vehículo Asignado (Simulado para prueba):</label>
+                <select id="vehiculo">
+                    <option value="MOTO">Moto / Auto Chico (75%, < 5km)</option>
+                    <option value="BICI">Bicicleta / Triciclo (65%, < 2.5km)</option>
+                    <option value="SCOOTER">Patineta / Caminando (60%, < 1.5km)</option>
+                </select>
+            </div>
+
+            <button type="submit">Calcular Costo Total y Pagar</button>
+        </form>
+
+        <div id="resultado-calculo" class="resultado" style="display:none;">
+            <h2>Resumen del Cobro</h2>
+            <p>Subtotal de la Compra: <span id="res-subtotal"></span></p>
+            <p>Comisión de Plataforma (2%): <span id="res-comision-cliente"></span></p>
+            <p>Costo de Envío: <span id="res-costo-envio"></span></p>
+            <div class="alerta" id="alerta-error" style="display:none;"></div>
+            <p class="total">TOTAL A PAGAR: <span id="res-total"></span></p>
+            <p style="font-size:0.9em; margin-top: 10px;">Tu pago de envío es la tarifa **<span id="res-tarifa-aplicada"></span>**</p>
+        </div>
+    </div>
+
+    <script>
+        
+        // ====================================================================
+        // COPIA DEL CÓDIGO server.js PARA DEMOSTRACIÓN (En producción, se importarían)
+        // La lógica de cálculo se mantiene sin cambios, asegurando la consistencia.
+        // ====================================================================
+        const COMISION_CLIENTE = 0.02; 
+        const TARIFA_DIURNA = 25.00; 
+        const TARIFA_NOCTURNA = 35.00; 
+        const GANANCIA_MOTO_AUTO = 0.75; 
+        const GANANCIA_BICI_TRICICLO = 0.65; 
+        const GANANCIA_SCOOTER_CAMINANDO = 0.60; 
+        const LIMITE_BICI = 2.5; 
+        const LIMITE_SCOOTER = 1.5; 
+        
+        function obtenerCuotaFija(horaPedido) {
+            const hora = horaPedido.getHours();
+            if (hora >= 9 && hora < 21) {
+                return TARIFA_DIURNA; 
+            } else {
+                return TARIFA_NOCTURNA; 
+            }
+        }
+
+        // Función original de server.js (simplificada para solo calcular los valores del cliente)
+        function calcularCostoYComisionesCliente(subtotalCompra, tipoEntrega, tipoVehiculoAsignado = null, distanciaKm = null) {
+            const horaPedido = new Date(); 
+            let costoEnvio = 0.00;
+            
+            if (typeof subtotalCompra !== 'number' || subtotalCompra <= 0) {
+                throw new Error("El subtotal de la compra debe ser un número positivo.");
+            }
+
+            const comisionPlataformaCliente = subtotalCompra * COMISION_CLIENTE;
+            let tarifaAplicada = 'N/A';
+            
+            if (tipoEntrega === 'DOMICILIO') {
+                if (!tipoVehiculoAsignado || typeof distanciaKm !== 'number') {
+                     throw new Error("Para Envío a Domicilio, se requiere el tipo de vehículo y la distancia en km.");
+                }
+
+                const cuotaFija = obtenerCuotaFija(horaPedido);
+                costoEnvio = cuotaFija;
+                tarifaAplicada = costoEnvio === TARIFA_DIURNA ? "DIURNA ($25)" : "NOCTURNA ($35)";
+                
+                let limiteMaximo = Infinity;
+
+                switch (tipoVehiculoAsignado) {
+                    case 'MOTO':
+                    case 'AUTO':
+                        break;
+                    case 'BICI':
+                    case 'TRICICLO':
+                        limiteMaximo = LIMITE_BICI;
+                        break;
+                    case 'SCOOTER':
+                    case 'CAMINANDO':
+                        limiteMaximo = LIMITE_SCOOTER;
+                        break;
+                    default:
+                        throw new Error("Medio de entrega no válido o no asignado.");
+                }
+                
+                if (distanciaKm > limiteMaximo) {
+                     throw new Error(`🚫 ERROR: El vehículo (${tipoVehiculoAsignado}) solo puede cubrir hasta ${limiteMaximo.toFixed(1)} km. Tu entrega requiere ${distanciaKm.toFixed(2)} km.`);
+                }
+                
+            } else if (tipoEntrega !== 'RECOLECTA') {
+                throw new Error("Tipo de entrega no válido.");
+            }
+            
+            const totalCliente = subtotalCompra + comisionPlataformaCliente + costoEnvio;
+
+            return {
+                subtotalCompra: subtotalCompra.toFixed(2),
+                comisionCliente: comisionPlataformaCliente.toFixed(2),
+                costoEnvio: costoEnvio.toFixed(2),
+                totalCliente: totalCliente.toFixed(2),
+                tarifaAplicada: tarifaAplicada
+            };
+        }
+        // ====================================================================
+
+        const form = document.getElementById('checkout-form');
+        const resultadoDiv = document.getElementById('resultado-calculo');
+        const direccionGroup = document.getElementById('direccion-group');
+        const alertaError = document.getElementById('alerta-error');
+
+        function mostrarOcultarDireccion() {
+            if (document.getElementById('domicilio').checked) {
+                direccionGroup.style.display = 'block';
+                document.getElementById('direccion').setAttribute('required', 'required');
+                document.getElementById('distancia').setAttribute('required', 'required');
+            } else {
+                direccionGroup.style.display = 'none';
+                document.getElementById('direccion').removeAttribute('required');
+                document.getElementById('distancia').removeAttribute('required');
+                alertaError.style.display = 'none';
+                resultadoDiv.style.display = 'none';
+            }
+        }
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            alertaError.style.display = 'none';
+            resultadoDiv.style.display = 'none';
+            
+            const subtotal = parseFloat(document.getElementById('subtotal').value);
+            const tipoEntrega = document.querySelector('input[name="tipo_entrega"]:checked').value;
+            
+            let distancia = null;
+            let vehiculo = null;
+
+            if (tipoEntrega === 'DOMICILIO') {
+                distancia = parseFloat(document.getElementById('distancia').value);
+                vehiculo = document.getElementById('vehiculo').value;
+                if (isNaN(distancia) || distancia <= 0 || !document.getElementById('direccion').value) {
+                    mostrarError("Por favor, ingresa una distancia y dirección válidas.");
+                    return;
+                }
+            }
+            
+            try {
+                // Llamada a la función del "back-end"
+                const resultados = calcularCostoYComisionesCliente(subtotal, tipoEntrega, vehiculo, distancia);
+                
+                // Mostrar resultados
+                document.getElementById('res-subtotal').textContent = `$${resultados.subtotalCompra} MXN`;
+                document.getElementById('res-comision-cliente').textContent = `$${resultados.comisionCliente} MXN`;
+                document.getElementById('res-costo-envio').textContent = `$${resultados.costoEnvio} MXN`;
+                document.getElementById('res-total').textContent = `$${resultados.totalCliente} MXN`;
+                document.getElementById('res-tarifa-aplicada').textContent = resultados.tarifaAplicada;
+
+                resultadoDiv.style.display = 'block';
+
+                // NOTA: Aquí se realizaría la integración con la pasarela de pagos (Mercado Pago, PayPal, etc.)
+                // Después del pago exitoso, la información se enviaría a tu servidor para la asignación del repartidor.
+
+            } catch (error) {
+                mostrarError(error.message);
+            }
+        });
+
+        function mostrarError(mensaje) {
+            alertaError.textContent = mensaje;
+            alertaError.style.display = 'block';
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente EnsDeLiz | Te hacemos los mandados VALLE DEL ROBLE</title>
+    <style>
+        /* CSS: Estilo Profesional, Moderno, Atractivo y Suave (COPIA DE TU CSS) */
+        body { font-family: 'Open Sans', Arial, sans-serif; background-color: #f0f4f8; margin: 0; padding: 0; }
+        .chat-container { max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); height: 80vh; display: flex; flex-direction: column; }
+        .header { background-color: #004a80; color: white; padding: 15px; border-top-left-radius: 15px; border-top-right-radius: 15px; text-align: center; font-size: 1.4em; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+        .messages { flex-grow: 1; padding: 20px; overflow-y: auto; }
+        .bot-message { display: flex; margin-bottom: 15px; align-items: flex-start; }
+        .bot-message-bubble { background-color: #d1e7ff; color: #004a80; padding: 15px; border-radius: 15px 15px 15px 5px; max-width: 80%; font-size: 1.15em; line-height: 1.6; }
+        .user-message { display: flex; justify-content: flex-end; margin-bottom: 15px; }
+        .user-message-bubble { background-color: #c8e6c9; color: #218838; padding: 15px; border-radius: 15px 15px 5px 15px; max-width: 80%; font-size: 1.15em; }
+        .input-area { padding: 15px; border-top: 1px solid #eee; display: flex; }
+        #user-input { flex-grow: 1; padding: 12px; border: 1px solid #ccc; border-radius: 25px; margin-right: 10px; font-size: 1.1em; }
+        #send-btn { background-color: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1.1em; transition: background-color 0.3s; }
+        #send-btn:hover { background-color: #218838; }
+        .comparison-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; margin-top: 15px; }
+        .comparison-table th, .comparison-table td { padding: 12px; text-align: left; font-size: 1em; }
+        .comparison-table th { background-color: #e0f7fa; color: #004a80; border-bottom: 2px solid #004a80; position: sticky; top: 0; }
+        .comparison-table td { background-color: #ffffff; border-radius: 6px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); }
+        .best-price-row td { border-left: 5px solid #ffc107; font-weight: bold; }
+        .reputation-stars { color: #ffc107; font-size: 1.1em; }
+        .graph-placeholder { background-color: #f0f0f0; border: 1px dashed #ccc; padding: 5px 10px; border-radius: 4px; font-size: 0.9em; color: #666; cursor: pointer; text-align: center; }
+        .finalizar-btn { background-color: #28a745; color: white; padding: 15px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.2em; width: 100%; margin-top: 10px; display: block; text-align: center; }
+        .plataforma-logo { font-size: 0.9em; color: #555; }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="header">
+            Asistente EnsDeLiz 👁️‍🗨️
+        </div>
+        <div class="messages" id="messages-container">
+            </div>
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Escribe tu búsqueda..." disabled>
+            <button id="send-btn" onclick="procesarRespuesta()" disabled>Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        // ====================================================================
+        // LÓGICA DE NEGOCIO (server.js - Solo las funciones necesarias para el cálculo)
+        // ====================================================================
+        const COMISION_CLIENTE = 0.02; 
+        const TARIFA_DIURNA = 25.00; 
+        const TARIFA_NOCTURNA = 35.00; 
+        const LIMITE_BICI = 2.5; 
+        const LIMITE_SCOOTER = 1.5; 
+        const GANANCIA_MOTO_AUTO = 0.75; 
+        const GANANCIA_BICI_TRICICLO = 0.65; 
+        const GANANCIA_SCOOTER_CAMINANDO = 0.60; 
+
+        function obtenerCuotaFija(horaPedido) {
+            const hora = horaPedido.getHours();
+            if (hora >= 9 && hora < 21) {
+                return TARIFA_DIURNA; 
+            } else {
+                return TARIFA_NOCTURNA; 
+            }
+        }
+        
+        // Adaptación de la función del backend para solo obtener los datos del cliente y validar
+        function calcularCostoYComisionesCliente(subtotalCompra, tipoEntrega, tipoVehiculoAsignado = null, distanciaKm = null) {
+            const horaPedido = new Date(); 
+            let costoEnvio = 0.00;
+            
+            if (typeof subtotalCompra !== 'number' || subtotalCompra <= 0) {
+                throw new Error("El subtotal de la compra debe ser un número positivo.");
+            }
+
+            const comisionPlataformaCliente = subtotalCompra * COMISION_CLIENTE;
+            let tarifaAplicada = 'N/A';
+            
+            if (tipoEntrega === 'DOMICILIO') {
+                if (!tipoVehiculoAsignado || typeof distanciaKm !== 'number') {
+                     throw new Error("Para Envío a Domicilio, se requiere el tipo de vehículo y la distancia en km.");
+                }
+
+                const cuotaFija = obtenerCuotaFija(horaPedido);
+                costoEnvio = cuotaFija;
+                tarifaAplicada = costoEnvio === TARIFA_DIURNA ? "DIURNA ($25)" : "NOCTURNA ($35)";
+                
+                let limiteMaximo = Infinity;
+
+                switch (tipoVehiculoAsignado) {
+                    case 'MOTO':
+                    case 'AUTO':
+                        break;
+                    case 'BICI':
+                    case 'TRICICLO':
+                        limiteMaximo = LIMITE_BICI;
+                        break;
+                    case 'SCOOTER':
+                    case 'CAMINANDO':
+                        limiteMaximo = LIMITE_SCOOTER;
+                        break;
+                    default:
+                        throw new Error("Medio de entrega no válido o no asignado.");
+                }
+                
+                if (distanciaKm > limiteMaximo) {
+                     throw new Error(`🚫 ERROR: El vehículo (${tipoVehiculoAsignado}) solo puede cubrir hasta ${limiteMaximo.toFixed(1)} km. Tu entrega requiere ${distanciaKm.toFixed(2)} km.`);
+                }
+                
+            } else if (tipoEntrega !== 'RECOLECTA') {
+                throw new Error("Tipo de entrega no válido.");
+            }
+            
+            const totalCliente = subtotalCompra + comisionPlataformaCliente + costoEnvio;
+
+            return {
+                subtotalCompra: subtotalCompra.toFixed(2),
+                comisionCliente: comisionPlataformaCliente.toFixed(2),
+                costoEnvio: costoEnvio.toFixed(2),
+                totalCliente: totalCliente.toFixed(2),
+                tarifaAplicada: tarifaAplicada
+            };
+        }
+        // ====================================================================
+
+
+        const messagesContainer = document.getElementById('messages-container');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        let pasoActual = 0; 
+        let productoBuscado = "";
+
+        // NUEVA FUNCIÓN: Formato de Moneda (Mejora de Portafolio)
+        function formatMXN(value) {
+            const num = parseFloat(value);
+            return new Intl.NumberFormat('es-MX', {
+                style: 'currency',
+                currency: 'MXN',
+                minimumFractionDigits: 2,
+            }).format(num);
+        }
+
+        function hablar(texto) {
+            console.log(`[VOZ ASISTENTE ENSDELIZ]: ${texto}`);
+        }
+
+        function mostrarMensaje(contenido, remitente = 'bot') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = remitente === 'bot' ? 'bot-message' : 'user-message';
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = remitente === 'bot' ? 'bot-message-bubble' : 'user-message-bubble';
+            
+            bubbleDiv.innerHTML = contenido.replace(/\n/g, '<br>');
+            
+            messageDiv.appendChild(bubbleDiv);
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; 
+        }
+
+        function iniciarAsistente() {
+            const mensajeBienvenida = "¡Hola! Soy **EnsDeLiz**, tu asistente personal 24/7. Te guiaré paso a paso. Dime, ¿qué producto, mandado o servicio estás buscando hoy?";
+            mostrarMensaje(mensajeBienvenida);
+            hablar(mensajeBienvenida);
+            
+            userInput.disabled = false;
+            sendBtn.disabled = false;
+            pasoActual = 1;
+        }
+        
+        // Simulación de la base de datos de los 10 negocios
+        const CATALOGO_SIMULADO = [
+            { nombre: "Tortillas Calientitas", reputacion: 4.8, distancia: 1.2, precioProducto: 15.00, tiempoEntrega: "15-20 min", url_catalogo: "https://30shop.co/tortillas", ventas_ult_mes: 3200, plataforma: "Treinta Shop" },
+            { nombre: "La Papelería de Don Memo", reputacion: 4.2, distancia: 0.8, precioProducto: 25.00, tiempoEntrega: "10-15 min", url_catalogo: "https://ecom.pro/memo", ventas_ult_mes: 1800, plataforma: "E-commerce Propia" },
+            { nombre: "El Tornillo Rápido (Ferretería)", reputacion: 5.0, distancia: 2.0, precioProducto: 12.00, tiempoEntrega: "25-35 min", url_catalogo: "https://treinta.co/ferreteria", ventas_ult_mes: 4500, plataforma: "Treinta Shop" },
+            { nombre: "Antojitos La Esquina", reputacion: 4.5, distancia: 0.5, precioProducto: 28.00, tiempoEntrega: "10-15 min", url_catalogo: "https://tienda.online/antojitos", ventas_ult_mes: 2900, plataforma: "Otra Plataforma" }
+        ];
+
+        function mostrarTablaComparativa() {
+            // ... (Función sin cambios, genera la tabla y pasa a pasoActual = 2)
+            let mensaje = `Gracias por tu búsqueda de **${productoBuscado}**. Analicé los 10 negocios; aquí tienes la comparación de los 4 más relevantes, **ordenados por costo (el más económico va primero)**:`;
+            const datosOrdenados = CATALOGO_SIMULADO.sort((a, b) => a.precioProducto - b.precioProducto);
+
+            let tablaHTML = `<table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Negocio</th>
+                        <th>Costo Aprox.</th>
+                        <th>Reputación</th>
+                        <th>Entrega Est.</th>
+                        <th>Ventas</th>
+                        <th>Plataforma</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+            datosOrdenados.forEach((negocio, index) => {
+                const esMasEconomico = index === 0 ? 'best-price-row' : ''; 
+                const estrellas = '⭐'.repeat(Math.round(negocio.reputacion));
+                
+                tablaHTML += `<tr class="${esMasEconomico}">
+                    <td>${negocio.nombre} (${negocio.distancia} km)</td>
+                    <td>${formatMXN(negocio.precioProducto)}</td>
+                    <td><span class="reputation-stars">${estrellas}</span></td>
+                    <td>${negocio.tiempoEntrega}</td>
+                    <td><div class="graph-placeholder" onclick="mostrarGrafica('${negocio.nombre}', ${negocio.ventas_ult_mes})">Gráfica de Ventas</div></td>
+                    <td><span class="plataforma-logo">${negocio.plataforma}</span></td>
+                </tr>`;
+            });
+            
+            tablaHTML += `</tbody></table>`;
+            
+            mostrarMensaje(mensaje);
+            mostrarMensaje(tablaHTML); 
+            
+            const mensajeSiguiente = `Por favor, escribe el **nombre del negocio** que deseas elegir para ver su catálogo en línea.`;
+            mostrarMensaje(mensajeSiguiente);
+            hablar(mensajeSiguiente);
+            pasoActual = 2;
+        }
+
+        function mostrarGrafica(nombre, ventas) {
+            alert(`Gráfica Interactiva (Simulación):\n${nombre} registró ${ventas} ventas en el último mes. Su tendencia es positiva.`);
+        }
+
+
+        function procesarRespuesta() {
+            const respuesta = userInput.value.trim();
+            if (!respuesta) return;
+
+            mostrarMensaje(respuesta, 'user');
+            userInput.value = '';
+
+            if (pasoActual === 1) {
+                // PASO 1: Búsqueda
+                productoBuscado = respuesta;
+                mostrarTablaComparativa();
+            } else if (pasoActual === 2) {
+                // PASO 2: Elección de Negocio
+                const negocioElegido = CATALOGO_SIMULADO.find(n => n.nombre.toLowerCase().includes(respuesta.toLowerCase()));
+                if (negocioElegido) {
+                    const mensajeRedireccion = `¡Perfecto! Has elegido a **${negocioElegido.nombre}**. Por favor, arma tu carrito en su plataforma online. **Anota el subtotal**.\n\nRegresa a esta ventana y haz clic en el botón **"Finalizar y Pagar Pedido"** para calcular el envío.`;
+                    mostrarMensaje(mensajeRedireccion);
+                    hablar(mensajeRedireccion);
+                    
+                    const btnHtml = `<button class="finalizar-btn" onclick="iniciarCheckout()">Finalizar y Pagar Pedido</button>`;
+                    mostrarMensaje(btnHtml);
+
+                    userInput.disabled = true;
+                    sendBtn.disabled = true;
+
+                } else {
+                    mostrarMensaje("No pude encontrar ese negocio en la lista. Por favor, escribe el nombre completo del negocio.");
+                    hablar("Por favor, escribe el nombre completo del negocio que deseas elegir.");
+                }
+            } else if (pasoActual === 3) {
+                // PASO 3: CÁLCULO FINAL (Lógica de Integración)
+                // Formato esperado (ejemplo de datos): "250.00 domicilio 2.3 BICI" o "80.00 recolecta"
+                const partes = respuesta.toLowerCase().split(' ');
+                const subtotal = parseFloat(partes[0]);
+                const tipoEntrega = partes.length > 1 && partes[1] === 'domicilio' ? 'DOMICILIO' : 'RECOLECTA';
+                
+                let vehiculo = 'MOTO'; // Default para envíos largos simulados
+                let distancia = 0;
+                
+                if (tipoEntrega === 'DOMICILIO') {
+                    // Esperamos Subtotal, domicilio, distancia, vehiculo
+                    distancia = parseFloat(partes[2]);
+                    vehiculo = partes.length > 3 ? partes[3].toUpperCase() : 'MOTO'; 
+                }
+
+                try {
+                    const resultados = calcularCostoYComisionesCliente(subtotal, tipoEntrega, vehiculo, distancia);
+                    const totalFinal = formatMXN(resultados.totalCliente);
+
+                    let resumenHTML = `¡Listo! **EnsDeLiz** ha calculado tu pedido:\n`;
+                    resumenHTML += `Subtotal de tu compra: ${formatMXN(resultados.subtotalCompra)}\n`;
+                    resumenHTML += `Comisión de Plataforma ($\text{2\%}$): ${formatMXN(resultados.comisionCliente)}\n`;
+                    resumenHTML += `Costo de Envío (${resultados.tarifaAplicada}): ${formatMXN(resultados.costoEnvio)}\n`;
+                    resumenHTML += `--------------------------------------\n`;
+                    resumenHTML += `<span style="font-size: 1.3em;">**TOTAL A PAGAR: ${totalFinal}**</span>\n\n`;
+                    
+                    if (tipoEntrega === 'DOMICILIO') {
+                         resumenHTML += `*Tu envío será asignado a un ${vehiculo} para la distancia de ${distancia} km.*`;
+                    } else {
+                         resumenHTML += `*Tu pedido está listo para recolección.*`;
+                    }
+
+                    mostrarMensaje(resumenHTML);
+                    hablar(`El total a pagar es de ${totalFinal}.`);
+
+                    userInput.placeholder = "¡Pago procesado con éxito! ¿Deseas hacer otro pedido?";
+                    userInput.disabled = true; 
+                    sendBtn.disabled = true;
+                    pasoActual = 4; // Finalizado
+
+                } catch (error) {
+                    mostrarMensaje(`⚠️ Error de Cálculo: ${error.message}. Por favor, vuelve a ingresar los datos en el formato: **Subtotal tipo distancia vehiculo** (ej. 250.00 domicilio 2.3 BICI)`, 'bot');
+                }
+            }
+        }
+        
+        function iniciarCheckout() {
+            const mensajeCheckout = "¡Excelente! Ingresa los datos de tu pedido en el siguiente formato: **Subtotal** **tipo** **distancia** **vehiculo**.\n\nEjemplos:\n- *A Domicilio*: `250.00 domicilio 2.3 BICI`\n- *Recolección*: `80.00 recolecta`";
+            mostrarMensaje(mensajeCheckout);
+            hablar("Por favor, ingresa los datos que te pido a continuación.");
+            
+            userInput.placeholder = "Ej: 250.00 domicilio 2.3 BICI";
+            userInput.disabled = false;
+            sendBtn.disabled = false;
+            pasoActual = 3;
+        }
+
+        window.onload = iniciarAsistente;
+    </script>
+</body>
+</html>

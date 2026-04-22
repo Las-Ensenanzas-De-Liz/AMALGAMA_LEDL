@@ -1,0 +1,186 @@
+// ====================================================================
+// Te hacemos los mandados VALLE DEL ROBLE - MÓDULO DE CÁLCULO
+// Archivo: server.js V1.2 (Lógica Central)
+// FUNCIÓN: Calcula el costo total del pedido, el pago al repartidor y la ganancia de la plataforma.
+// REGLAS CLAVE:
+// 1. Límite Geográfico de 5.0 km (Micro-Servicio por Colonia).
+// 2. Restricciones de distancia por vehículo (1.5 km / 2.5 km) para optimizar la eficiencia.
+// 3. Comisiones de Plataforma del 2% (Cliente y Negocio).
+// ====================================================================
+
+// CONFIGURACIÓN DE TARIFAS Y COMISIONES 
+const COMISION_CLIENTE = 0.02; // 2% sobre Subtotal de la compra
+const COMISION_NEGOCIO = 0.02; // 2% sobre Subtotal de la venta
+const TARIFA_DIURNA = 25.00; // 9:00 a 21:00 hrs
+const TARIFA_NOCTURNA = 35.00; // 21:00 a 9:00 hrs
+
+// CONFIGURACIÓN DE DISTANCIA Y GANANCIA
+const LIMITE_MAXIMO_SERVICIO = 5.0; // km - Límite exterior del micro-servicio (COLONIA)
+
+// Restricciones de distancia por vehículo (REINTRODUCIDAS)
+const LIMITE_BICI = 2.5; // km - Límite para Bici/Triciclo
+const LIMITE_SCOOTER = 1.5; // km - Límite para Patineta/Caminando
+
+// Porcentajes de ganancia del repartidor (sobre la TARIFA FIJA DE SERVICIO)
+const GANANCIA_MOTO_AUTO = 0.75; // 75%
+const GANANCIA_BICI_TRICICLO = 0.70; // 70% (Incentivo mejorado)
+const GANANCIA_SCOOTER_CAMINANDO = 0.65; // 65% (Incentivo mejorado)
+
+
+/**
+ * @typedef {'RECOLECTA' | 'DOMICILIO'} TipoEntrega
+ * @typedef {'MOTO' | 'AUTO' | 'BICI' | 'TRICICLO' | 'SCOOTER' | 'CAMINANDO'} TipoVehiculo
+ */
+
+
+/**
+ * Determina el tipo de tarifa de envío (Diurna o Nocturna).
+ * @param {Date} horaPedido - Objeto Date con la hora actual del pedido.
+ * @returns {number} La cuota fija de servicio (25.00 o 35.00).
+ */
+function obtenerCuotaFija(horaPedido) {
+    const hora = horaPedido.getHours();
+    if (hora >= 9 && hora < 21) {
+        return TARIFA_DIURNA; 
+    } else {
+        return TARIFA_NOCTURNA; 
+    }
+}
+
+
+/**
+ * Función Principal: Calcula el costo total del pedido y la distribución de ganancias.
+ * @param {number} subtotalCompra - Total de la venta antes de comisiones.
+ * @param {TipoEntrega} tipoEntrega - 'RECOLECTA' o 'DOMICILIO'.
+ * @param {TipoVehiculo} [tipoVehiculoAsignado] - Solo para tipoEntrega 'DOMICILIO'.
+ * @param {number} [distanciaKm] - Distancia calculada por la API.
+ * @returns {object} Objeto con todos los cálculos financieros.
+ * @throws {Error} Si la distancia excede el límite geográfico o vehicular.
+ */
+function calcularCostoYComisiones(subtotalCompra, tipoEntrega, tipoVehiculoAsignado = null, distanciaKm = null) {
+    const horaPedido = new Date(); 
+    let costoEnvio = 0.00;
+    let pagoRepartidor = 0.00;
+    let gananciaPlataformaEnvio = 0.00;
+
+    if (typeof subtotalCompra !== 'number' || subtotalCompra <= 0) {
+        throw new Error("El subtotal de la compra debe ser un número positivo.");
+    }
+
+    const comisionPlataformaCliente = subtotalCompra * COMISION_CLIENTE;
+    
+    if (tipoEntrega === 'DOMICILIO') {
+        if (!tipoVehiculoAsignado || typeof distanciaKm !== 'number') {
+             throw new Error("Para Envío a Domicilio, se requiere el tipo de vehículo y la distancia en km.");
+        }
+
+        // RESTRICCIÓN 1: LÍMITE GEOGRÁFICO DE LA COLONIA (5.0 km)
+        if (distanciaKm > LIMITE_MAXIMO_SERVICIO) {
+             throw new Error(`🚫 ERROR GEOGRÁFICO: El servicio excede el límite de ${LIMITE_MAXIMO_SERVICIO.toFixed(1)} km establecido para esta colonia/micro-servicio.`);
+        }
+        
+        const cuotaFija = obtenerCuotaFija(horaPedido);
+        costoEnvio = cuotaFija;
+        
+        let porcentajeGanancia = 0;
+        let limiteMaximoVehicular = Infinity;
+
+        // Definición de porcentajes y LÍMITES POR TIPO DE VEHÍCULO
+        switch (tipoVehiculoAsignado) {
+            case 'MOTO':
+            case 'AUTO':
+                porcentajeGanancia = GANANCIA_MOTO_AUTO; 
+                break;
+            case 'BICI':
+            case 'TRICICLO':
+                porcentajeGanancia = GANANCIA_BICI_TRICICLO; 
+                limiteMaximoVehicular = LIMITE_BICI; 
+                break;
+            case 'SCOOTER':
+            case 'CAMINANDO':
+                porcentajeGanancia = GANANCIA_SCOOTER_CAMINANDO; 
+                limiteMaximoVehicular = LIMITE_SCOOTER; 
+                break;
+            default:
+                throw new Error("Medio de entrega no válido o no asignado.");
+        }
+        
+        // RESTRICCIÓN 2: VERIFICACIÓN DEL LÍMITE DE DISTANCIA DEL VEHÍCULO
+        if (distanciaKm > limiteMaximoVehicular) {
+             throw new Error(`🚫 ERROR DE LOGÍSTICA: El vehículo (${tipoVehiculoAsignado}) solo puede cubrir hasta ${limiteMaximoVehicular.toFixed(1)} km. La distancia requerida es ${distanciaKm.toFixed(2)} km.`);
+        }
+
+        // Cálculo de pagos
+        pagoRepartidor = cuotaFija * porcentajeGanancia;
+        gananciaPlataformaEnvio = cuotaFija * (1 - porcentajeGanancia);
+
+    } else if (tipoEntrega === 'RECOLECTA') {
+        costoEnvio = 0.00; 
+        pagoRepartidor = 0.00;
+
+    } else {
+        throw new Error("Tipo de entrega no válido.");
+    }
+    
+    // Comisiones y Totales
+    const comisionPlataformaNegocio = subtotalCompra * COMISION_NEGOCIO;
+    const totalCliente = subtotalCompra + comisionPlataformaCliente + costoEnvio;
+    const gananciaTotalPlataforma = comisionPlataformaCliente + comisionPlataformaNegocio + gananciaPlataformaEnvio;
+
+    return {
+        // Datos de la Transacción
+        horaPedido: horaPedido.toLocaleTimeString('es-MX'),
+        tarifaAplicada: costoEnvio === TARIFA_DIURNA ? "DIURNA ($25)" : (costoEnvio === TARIFA_NOCTURNA ? "NOCTURNA ($35)" : "N/A"),
+        
+        // Datos para el Cliente
+        subtotalCompra: subtotalCompra.toFixed(2),
+        comisionCliente: comisionPlataformaCliente.toFixed(2),
+        costoEnvio: costoEnvio.toFixed(2),
+        totalCliente: totalCliente.toFixed(2),
+        
+        // Datos Financieros Internos
+        pagoRepartidor: pagoRepartidor.toFixed(2),
+        comisionNegocio: comisionPlataformaNegocio.toFixed(2),
+        gananciaPlataforma: gananciaTotalPlataforma.toFixed(2),
+        tipoVehiculo: tipoVehiculoAsignado || 'N/A',
+        distanciaKm: distanciaKm ? distanciaKm.toFixed(2) : 'N/A',
+    };
+}
+
+// ====================================================================
+// EJEMPLO DE USO (Descomentar para probar en Node.js)
+// ====================================================================
+/*
+try {
+    // Ejemplo 1: Entrega a Domicilio, 1.0 km, Patineta (debe pasar la verificación)
+    const resultado1 = calcularCostoYComisiones(150.00, 'DOMICILIO', 'SCOOTER', 1.0);
+    console.log("--- RESULTADO 1 (SCOOTER 1.0 km) ---");
+    console.log(`TOTAL CLIENTE: $${resultado1.totalCliente} MXN`);
+    console.log(`Pago Repartidor: $${resultado1.pagoRepartidor} MXN`);
+    
+    // Ejemplo 2: Entrega a Domicilio, 3.5 km, Moto (debe pasar la verificación)
+    const resultado2 = calcularCostoYComisiones(500.00, 'DOMICILIO', 'MOTO', 3.5);
+    console.log("\n--- RESULTADO 2 (MOTO 3.5 km) ---");
+    console.log(`TOTAL CLIENTE: $${resultado2.totalCliente} MXN`);
+    console.log(`Ganancia Plataforma: $${resultado2.gananciaPlataforma} MXN`);
+
+    // Ejemplo 3: RECOLECTA (sin costo de envío)
+    const resultado3 = calcularCostoYComisiones(85.50, 'RECOLECTA');
+    console.log("\n--- RESULTADO 3 (RECOLECTA) ---");
+    console.log(`TOTAL CLIENTE: $${resultado3.totalCliente} MXN`);
+    console.log(`Costo de Envío: $${resultado3.costoEnvio} MXN`);
+
+    // Ejemplo 4: FALLO - BICI excede su límite interno (2.5 km)
+    // const resultado4 = calcularCostoYComisiones(100.00, 'DOMICILIO', 'BICI', 2.6); // Generará error
+    // console.log(resultado4);
+    
+    // Ejemplo 5: FALLO - Excede el límite geográfico de la colonia (5.0 km)
+    // const resultado5 = calcularCostoYComisiones(100.00, 'DOMICILIO', 'MOTO', 5.1); // Generará error
+    // console.log(resultado5);
+
+
+} catch (error) {
+    console.error(`\n--- ERROR DE LA PRUEBA ---`);
+    console.error(error.message);
+}
+*/

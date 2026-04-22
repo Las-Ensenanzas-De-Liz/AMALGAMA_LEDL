@@ -1,0 +1,14 @@
+1. Módulo Backend: Reglas de Cálculo Actualizadas (server.js)
+Se elimina la restricción de distancia para los vehículos motorizados y se establecen las nuevas reglas, asegurando que todos los vehículos puedan operar en un radio de hasta 5\text{ km} por micro-servicio.
+A. Nuevas Definiciones de Distancia y Porcentaje de Ganancia (Actualizado):
+Elemento Valor Anterior Nuevo Valor Justificación del Cambio
+\text{GANANCIA\_MOTO\_AUTO} 0.75 \text{0.75} Mantenido, pero ahora limitado por la Colonia/Municipio.
+\text{GANANCIA\_BICI\_TRICICLO} 0.65 \text{0.70} Aumentado: Se mejora el incentivo para BICI/TRICICLO dado que ahora pueden operar en el radio extendido de 5\text{ km}, mejorando su rentabilidad.
+\text{GANANCIA\_SCOOTER\_CAMINANDO} 0.60 \text{0.65} Aumentado: Se mejora el incentivo para SCOOTER/CAMINANDO por el mismo motivo.
+\text{LIMITE\_MAXIMO\_SERVICIO} N/A \text{5.0} (km) Nuevo Límite: El límite físico de la micro-zona de servicio (Colonia).
+Elemento Regla Anterior (V1.0) Nueva Regla (V1.2)
+\text{GANANCIA\_BICI\_TRICICLO} 0.65 0.70 (70%)
+\text{GANANCIA\_SCOOTER\_CAMINANDO} 0.60 0.65 (65%)
+\text{LIMITE\_BICI} 2.5 \text{ km} 2.5 \text{ km}
+\text{LIMITE\_SCOOTER} 1.5 \text{ km} 1.5 \text{ km}
+\text{LIMITE\_MAXIMO\_SERVICIO} N/A 5.0 \text{ km}

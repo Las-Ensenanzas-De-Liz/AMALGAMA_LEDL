@@ -1,0 +1,31 @@
+📄 Documento de Logística y Protocolo Operacional
+Título: Reglas de Asignación y Protocolo de Entrega (V. 1.0)
+Proyecto: Te hacemos los mandados VALLE DEL ROBLE (Micro-Logística Comunitaria)
+Fecha: Octubre 2025
+I. Objetivo del Protocolo
+Establecer las reglas claras y transparentes para la asignación de pedidos a los repartidores, garantizando la mayor eficiencia (menor tiempo de entrega) y el costo operativo más bajo, mientras se respetan las limitaciones de distancia y tipo de vehículo definidas en el Módulo de Cálculo (server.js).
+II. Reglas de Asignación de Repartidores (Algoritmo EnsDeLiz)
+La asignación se basa en un sistema de puntuación ponderado que prioriza la cercanía y la capacidad del vehículo, siguiendo estos tres filtros en orden:
+A. Filtro 1: Capacidad de Distancia (Regla de Logística)
+Antes de asignar, el sistema valida que el vehículo disponible sea físicamente capaz de completar la ruta (Origen a Destino).
+Vehículo Asignado Límite Máximo de Distancia Regla de Validación
+SCOOTER / CAMINANDO 1.5 km Se excluye si la distancia del pedido es > 1.5 km.BICI / TRICICLO 2.5 km Se excluye si la distancia del pedido es > 2.5 km.
+MOTO / AUTO \infty (Ilimitado) Siempre apto por distancia (dentro del área de Valle del Roble).
+Si la distancia del pedido es de 2.0 km, solo serán candidatos los repartidores con Bici, Triciclo, Moto o Auto.
+B. Filtro 2: Puntuación de Prioridad (KPIs de Eficiencia)
+El repartidor elegible que se encuentre más cerca del Negocio de Origen obtendrá la mayor prioridad.
+Factor Prioridad (Ponderación) Detalle
+Distancia al Origen Alta (50%) Menor distancia = Mayor puntuación. Se busca minimizar el "viaje en vacío".
+Reputación / Rating Media (30%) Se asigna a repartidores con calificación > 4.5 para asegurar calidad de servicio.
+Carga de Trabajo Baja (20%) El repartidor que tenga menos de 2 pedidos activos en ese momento tendrá prioridad.
+C. Filtro 3: Aplicación de Tarifa (Regla Financiera)
+Tarifa Diurna (9:00 - 20:59 hrs): La asignación debe ser inmediata.
+Tarifa Nocturna (21:00 - 8:59 hrs): Si un pedido Nocturno no es aceptado por el repartidor más cercano en 3 minutos, la plataforma debe ofrecer un bono adicional de $5 MXN para incentivar la toma del servicio, descontado de la ganancia de la plataforma.
+III. Protocolo de Servicio y Entrega (Estándar EnsDeLiz)
+El repartidor debe seguir rigurosamente los siguientes 5 pasos.
+Paso Descripción de la Acción KPI a Medir
+1. Aceptación El repartidor confirma el pedido en la app en un plazo máximo de 90 segundos. El sistema le proporciona la ruta más rápida al Negocio de Origen. Tiempo de Aceptación
+2. Recolección El repartidor llega al negocio, confirma el subtotal de la compra (coincidiendo con el cálculo del Asistente EnsDeLiz), realiza la compra y la verifica contra el ticket. Tiempo de Espera en Tienda (máx. 5 min)
+3. Notificación Una vez recolectado, el repartidor presiona "En Ruta", lo que envía una notificación al cliente con el tiempo estimado de llegada (ETA). Notificación al Cliente
+4. Entrega El repartidor llega al domicilio. Si el cliente pagó en línea, solo entrega. Si es contra-entrega (COD), cobra el TOTAL CLIENTE (Subtotal + Comisión + Envío) y registra el pago en la app. Tasa de Entrega Fallida
+5. Finalización El repartidor presiona "Entregado" para liberar su capacidad y enviar el resumen de pago a la plataforma para el siguiente ciclo de liquidación de ganancias. Tiempo Total de Servicio

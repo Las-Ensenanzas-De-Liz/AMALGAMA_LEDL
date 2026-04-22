@@ -1,0 +1,33 @@
+🚀 Presentación Ejecutiva: Te hacemos los mandados VALLE DEL ROBLE
+Título del Proyecto: Micro-Logística Comunitaria EnsDeLiz
+Enfoque: Servicio de entrega ultra-localizado, rápido y transparente, diseñado para potenciar a los negocios locales y cubrir las necesidades de mandados de la comunidad de Valle del Roble, Cadereyta Jiménez, Nuevo León.
+I. Propuesta de Valor y Mercado Meta
+A. El Modelo "EnsDeLiz": Escalabilidad por Micro-Servicio
+El proyecto opera bajo un modelo de micro-servicio geográfico, garantizando tiempos de respuesta mínimos y costos controlados.
+Ubicación de Lanzamiento: Valle del Roble (parte de Cadereyta Jiménez, N.L.).
+Segmentación Geográfica: El servicio opera dentro de un radio estricto de 5.0 \text{ km} a la redonda por colonia, facilitando la replicación en otras zonas (Municipios, Estados, País).
+Mercado Meta: Vecinos y pequeños comercios de la colonia que requieren entregas rápidas y económicas, sin las altas comisiones de las grandes plataformas.
+B. La Tecnología: Asistente EnsDeLiz
+La interacción con el cliente se realiza a través del Asistente EnsDeLiz, un chatbot de Front-end (index-asistente.html) que provee:
+Búsqueda y Comparación: El cliente encuentra negocios cercanos, comparando costos, reputación y distancia de los comercios locales.
+Transparencia Total: El asistente ejecuta el cálculo financiero (server.js V1.2) en tiempo real, mostrando al cliente el subtotal, la comisión de plataforma (\mathbf{2\%}) y el costo de envío, antes de finalizar la orden.
+II. Lógica Financiera y Operativa (Modelo de Doble Restricción)
+La rentabilidad y la eficiencia se basan en una lógica de negocio precisa, definida en el código fuente principal (server.js).
+A. Estructura de Costos y Ganancias
+Concepto Valor / Porcentaje Aplicación
+Tarifa Fija \mathbf{\$25.00 \text{ MXN}} (Diurna) / \mathbf{\$35.00 \text{ MXN}} (Nocturna) Pagada por el cliente por el servicio de envío.
+Comisión de Plataforma \mathbf{2\%} (Cliente) + \mathbf{2\%} (Negocio) Modelo de doble comisión para asegurar la sostenibilidad del sistema.
+Pago a Repartidor \mathbf{65\%} a \mathbf{75\%} de la Tarifa Fija Incentivos altos: 75\% (MOTO/AUTO), \mathbf{70\%} (BICI/TRICICLO), \mathbf{65\%} (SCOOTER/CAMINANDO).
+B. Algoritmo de Asignación (EnsDeLiz)
+El sistema de asignación de repartidores aplica dos filtros de distancia obligatorios para asegurar la rapidez y la eficiencia logística:
+Filtro Tipo de Vehículo Distancia Máxima Permitida Objetivo Logístico
+Geográfico Todos los vehículos \mathbf{5.0 \text{ km}} Cumplir con el límite del Micro-Servicio (Colonia).
+Vehicular SCOOTER / CAMINANDO \mathbf{1.5 \text{ km}} Asignar la opción más rápida y económica para trayectos muy cortos.
+Vehicular BICI / TRICICLO \mathbf{2.5 \text{ km}} Limitar la distancia para vehículos no motorizados.
+El Algoritmo EnsDeLiz prioriza al repartidor elegible más cercano al punto de recolección (Negocio de Origen) para minimizar el "viaje en vacío".
+III. Marco de Gobernanza y Documentación
+El proyecto se presenta con una suite de documentación completa que rige su operación y estructura legal.
+Documento Legal: Licencia Las Enseñanzas De Liz (Irremplazable e Irrevocable).
+Documento Operacional: Reglas de Asignación y Protocolo de Entrega (V1.2), que detalla el ciclo de vida del pedido (Aceptación en 90 segundos, Notificación, Entrega, etc.).
+Documento Ético: Constitución del Robot y/o la Robótica V1.0 (Escrita por J. Andrés Reséndez R.), que establece los principios de operación del Asistente EnsDeLiz.
+Conclusión: El modelo "Te hacemos los mandados VALLE DEL ROBLE" es un sistema de entrega de última milla tecnológicamente robusto, financieramente sostenible y diseñado para su escalabilidad inmediata a cualquier otra colonia o municipio que requiera un servicio de micro-logística eficiente.

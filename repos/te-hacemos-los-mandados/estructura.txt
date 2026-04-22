@@ -1,0 +1,10 @@
+/
+├── README.md              <-- Descripción del Proyecto, Instalación y Contacto
+├── LICENSE                <-- Archivo de la Licencia
+├── /src                   <-- Código Fuente (Frontend y Backend)
+│   ├── index-asistente.html <-- Frontend: Interfaz del Asistente EnsDeLiz
+│   └── server.js            <-- Backend: Lógica de Negocio y Cálculo (V1.2)
+└── /docs                  <-- Documentación Legal y Operativa
+    ├── 1-Licencia-Legal.md
+    ├── 2-Constitucion-Robotica.md
+    └── 3-Logistica-Operacion.md

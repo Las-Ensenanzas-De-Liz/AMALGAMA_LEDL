@@ -1,0 +1,10 @@
+Lógica de Negocio y Finanzas (server.js V1.2)
+Este es el módulo central que contiene el "cerebro" del modelo de negocio, responsable de la transparencia financiera y la optimización de recursos.
+Archivo Principal: server.js (V1.2).
+Función: Calcular el costo total que paga el cliente, el pago al repartidor y la ganancia de la plataforma, aplicando las reglas de tarifas y comisiones.
+Reglas Clave:
+Doble Restricción de Distancia:
+Límite de servicio por colonia: Máximo \mathbf{5.0 \text{ km}}.
+Límites vehiculares internos: \mathbf{2.5 \text{ km}} (BICI/TRICICLO) y \mathbf{1.5 \text{ km}} (SCOOTER/CAMINANDO), optimizando la asignación en trayectos cortos.
+Estructura de Costos: Se aplica una comisión de \mathbf{2\%} al cliente y \mathbf{2\%} al negocio sobre el subtotal de la compra para la sustentabilidad de la plataforma.
+Incentivos: El pago a repartidores se basa en la tarifa fija (25.00 Diurna / 35.00 Nocturna), con porcentajes de ganancia competitivos (70\% para BICI/TRICICLO, 65\% para SCOOTER/CAMINANDO y \mathbf{75\%} para MOTO/AUTO) para atraer y retener talento local.

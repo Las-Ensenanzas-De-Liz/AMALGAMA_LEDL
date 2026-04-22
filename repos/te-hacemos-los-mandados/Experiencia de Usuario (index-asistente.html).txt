@@ -1,0 +1,6 @@
+Frontend: Experiencia de Usuario (index-asistente.html)
+El Asistente EnsDeLiz es la interfaz conversacional que guía al cliente desde la búsqueda hasta el pago, brindando una experiencia moderna e intuitiva.
+Archivo Principal: index-asistente.html.
+Función: Servir como punto de contacto 24/7. El flujo conversacional simula la búsqueda de productos, compara negocios por métricas clave (costo, distancia, reputación) y finalmente se conecta al server.js para realizar el cálculo final.
+Tecnologías: HTML, CSS (Estilo Profesional Suave) y JavaScript (Lógica Conversacional y Lógica de Cálculo V1.2 integrada).
+Valor Agregado: La interfaz utiliza una tabla comparativa de negocios y un botón de "Finalizar y Pagar Pedido" que funge como la transición del catálogo online a la etapa de checkout del servicio.

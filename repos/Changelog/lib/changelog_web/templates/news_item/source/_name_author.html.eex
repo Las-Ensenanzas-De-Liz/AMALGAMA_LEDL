@@ -1,0 +1,1 @@
+<%= link(SharedHelpers.domain_name(@item.url), to: SharedHelpers.domain_url(@item.url), title: @author.name, rel: "external") %>

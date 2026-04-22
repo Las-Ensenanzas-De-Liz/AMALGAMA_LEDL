@@ -1,0 +1,33 @@
+<div class="ui basic segment">
+  <h1 class="ui dividing header">
+    Posts
+    <div class="sub header">First post!</div>
+  </h1>
+
+  <div class="actions">
+  <%= if Policies.Admin.Post.new(@current_user) do %>
+    <%= link to: Routes.admin_post_path(@conn, :new), class: "ui right floated primary basic button" do %>
+      <i class="add pencil alternate icon"></i>
+      Add Post
+    <% end %>
+  <% end %>
+  </div>
+</div>
+
+<div class="ui basic segment">
+<%= if Enum.any?(@drafts) do %>
+  <h2 class="ui header">Drafts</h2>
+  <%= render("_table.html", Map.merge(assigns, %{status: :draft, posts: @drafts})) %>
+<% end %>
+
+<%= if Enum.any?(@scheduled) do %>
+  <h2 class="ui header">Scheduled</h2>
+  <%= render("_table.html", Map.merge(assigns, %{status: :scheduled, posts: @scheduled})) %>
+<% end %>
+
+<%= if Enum.any?(@posts) do %>
+  <h2 class="ui header">Published (<%= @page.total_entries |> SharedHelpers.comma_separated %>)</h2>
+  <%= render("_table.html", Map.merge(assigns, %{conn: @conn, status: :published, posts: @posts})) %>
+  <%= render(SharedView, "_pagination.html", assigns) %>
+<% end %>
+</div>

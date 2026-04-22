@@ -1,0 +1,17 @@
+<tr>
+  <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
+    <p><%= greeting(@person) %></p>
+
+    <p>Your submission got published! ✊</p>
+
+    <ol>
+      <li>🗣 Start the discussion by being <%= link("the first to comment", to: Routes.news_item_url(Endpoint, :show, NewsItemView.hashid(@item)) <> "#discussion", itemprop: "url") %> </li>
+      <li>😇 Share <%= link("the link", to: Routes.news_item_url(Endpoint, :show, NewsItemView.hashid(@item)), itemprop: "url") %> on social media and may <em>The Algorithms</em> #bless you</li>
+      <li>🔥 <%= news_item_promotion_advice(@item) %></li>
+    </ol>
+
+    <p>Don't want these notifications? <em><%= link("Disable 'em", to: PersonView.opt_out_url(@person, "setting", "email_on_submitted_news")) %></em></p>
+
+    <p>💚, Logbot</p>
+  </td>
+</tr>

@@ -1,0 +1,101 @@
+<table class="ui celled striped table">
+    <thead>
+      <tr>
+        <th>People</th>
+        <th>Type</th>
+        <th>Headline</th>
+        <th>Topics</th>
+      <%= if @status != :published do %>
+        <th>Create Time</th>
+      <% end %>
+      <%= if Enum.member?([:published, :scheduled], @status) do %>
+        <th>Publish Time</th>
+      <% end %>
+        <th class="center aligned">
+        <%= if @status == :draft do %>
+          <div class="ui basic buttons">
+            <%= if Policies.Admin.NewsItem.new(@current_user), do: AdminHelpers.icon_link("add", to: ~p"/admin/news/items/new", title: "New Item") %>
+            <%= if Policies.AdminsOnly.new(@current_user), do: AdminHelpers.icon_link("rss", to: ~p"/admin/news/sources/new", title: "New Source") %>
+            <%= if Policies.AdminsOnly.new(@current_user), do: AdminHelpers.icon_link("newspaper", to: ~p"/admin/news/issues/new", title: "New Issue") %>
+          </div>
+        <% end %>
+        </th>
+      </tr>
+    </thead>
+
+  <%= if @status == :queued do %>
+    <tbody class="js-queue">
+  <% else %>
+    <tbody>
+  <% end %>
+    <%= for item <- @items do %>
+      <tr data-id="<%= item.id %>">
+        <td class="center aligned">
+        <%= if AdminHelpers.is_loaded(item.submitter) && item.submitter != item.author do %>
+          <%= link to: ~p"/admin/people/#{item.submitter}?next=#{SharedHelpers.current_path(@conn)}", title: "Submitter: #{item.submitter.name}", data: [popup: true] do %>
+            <img class="ui avatar image" src="<%= PersonView.avatar_url(item.submitter) %>">
+          <% end %>
+        <% end %>
+        <%= if AdminHelpers.is_loaded(item.author) do %>
+          <%= link to: ~p"/admin/people/#{item.author}?next=#{SharedHelpers.current_path(@conn)}", title: "Author: #{item.author.name}", data: [popup: true] do %>
+            <img class="ui avatar image" src="<%= PersonView.avatar_url(item.author) %>">
+          <% end %>
+        <% end %>
+        <%= if AdminHelpers.is_loaded(item.logger) && item.logger != item.author do %>
+          <%= link to: ~p"/admin/people/#{item.logger}?next=#{SharedHelpers.current_path(@conn)}", title: "Logger: #{item.logger.name}", data: [popup: true] do %>
+            <img class="ui avatar image" src="<%= PersonView.avatar_url(item.logger) %>">
+          <% end %>
+        <% end %>
+        </td>
+        <td><%= item.type %></td>
+        <td>
+          <%= if item.image do %><i class="image icon"></i><% end %>
+          <%= link(SharedHelpers.truncate(item.headline, 50), to: item.url) %>
+        </td>
+        <td>
+        <%= for topic <- item.topics do %>
+          <%= link("##{topic.slug}", to: ~p"/admin/topics/#{topic.slug}/edit") %><br/>
+        <% end %>
+        </td>
+      <%= if @status != :published do %>
+        <td><%= AdminHelpers.ts(item.inserted_at) %></td>
+      <% end %>
+      <%= if Enum.member?([:published, :scheduled], @status) do %>
+        <td><%= AdminHelpers.ts(item.published_at) %></td>
+      <% end %>
+        <td class="center aligned">
+          <div class="ui small basic buttons">
+          <%= if @status == :queued do %>
+            <%= AdminHelpers.icon_link("move", to: ~p"/admin/news/items/#{item}/edit") %>
+          <% end %>
+            <%= AdminHelpers.icon_link("eye", to: show_or_preview_path(@conn, item)) %>
+          <%= if @status == :published do %>
+            <%= AdminHelpers.icon_link("rss", to: ~p"/admin/news/items/#{item}/subscriptions", title: "Subscriptions") %>
+          <% end %>
+            <%= if Policies.Admin.NewsItem.edit(@current_user, item), do: AdminHelpers.icon_link("edit", to: ~p"/admin/news/items/#{item}/edit") %>
+          <%= if @status == :submitted do %>
+            <%= AdminHelpers.modal_icon_button(
+                  ChangelogWeb.Admin.NewsItemView,
+                  "thumbs up",
+                  "Accept",
+                  "accept",
+                  Map.merge(assigns, %{item: item}),
+                  item.id
+                ) %>
+            <%= AdminHelpers.icon_link("thumbs down", to: ~p"/admin/news/items/#{item}/decline?next=back", title: "Decline silently", method: :delete, data: [confirm: "Decline this item?"]) %>
+            <%= AdminHelpers.modal_icon_button(
+                  ChangelogWeb.Admin.NewsItemView,
+                  "file text",
+                  "Decline with message",
+                  "decline",
+                  %{item: item, conn: @conn},
+                  item.id
+                ) %>
+          <% end %>
+          <%= if Policies.Admin.NewsItem.delete(@current_user, item), do: AdminHelpers.icon_link("trash", to: ~p"/admin/news/items/#{item}?next=back", title: "Delete", method: :delete, data: [confirm: "Are you sure?"]) %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>

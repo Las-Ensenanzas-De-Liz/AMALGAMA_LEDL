@@ -1,0 +1,24 @@
+<div class="page_news_item page_news_item--post">
+  <article class="news_item">
+    <header class="news_item-header">
+      <p class="news_item-source">
+        <%= link to: PersonView.profile_path(@post.author), title: @post.author.name, rel: "external", class: "news_item-source-image" do %>
+          <%= SharedHelpers.maybe_lazy_image(@conn, PersonView.avatar_url(@post.author), @post.author.name) %>
+        <% end %>
+        <!-- TODO: Make this a 'kicker' -->
+        <%= link("changelog.com/posts", to: Routes.post_path(@conn, :index), title: "Changelog Posts") %>
+      </p>
+      <h1 class="news_item-title"><%= @post.title %></h1>
+    <%= if @post.subtitle do %>
+      <h2 class="news_item-subtitle"><%= @post.subtitle %></h2>
+    <% end %>
+    </header>
+    <%= if @item, do: render(NewsItemView, "_toolbar.html", Map.put(assigns, :style, "date")) %>
+    <div class="news_item-content richtext">
+      <%= @post.body |> SharedHelpers.md_to_html() |> raw() %>
+    </div>
+  </article>
+
+  <%= render(SharedView, "_signup_banner.html", assigns) %>
+  <%= if @item, do: render(NewsItemView, "_comments.html", assigns) %>
+</div>

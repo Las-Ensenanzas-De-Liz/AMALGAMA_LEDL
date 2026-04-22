@@ -1,0 +1,62 @@
+<div class="ui basic segment">
+  <h1 class="ui dividing header">
+    <%= link("Sponsors", to: Routes.admin_sponsor_path(@conn, :index)) %>
+    &raquo;
+    <%= @sponsor.name %>
+  </h1>
+
+  <div class="actions right">
+    <div class="ui basic buttons">
+      <%= @sponsor |> list_of_links() |> raw() %>
+      <%= link("Edit", to: Routes.admin_sponsor_path(@conn, :edit, @sponsor), class: "ui button") %>
+    </div>
+  </div>
+</div>
+
+<%= if Enum.any?(@episode_sponsorships) do %>
+<div class="ui basic segment">
+  <h2 class="ui header">Sponsored Episodes (<%= @episode_sponsorships |> length() |> SharedHelpers.comma_separated() %>)</h2>
+
+  <table class="ui celled striped table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Episode</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Reach</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+    <%= for {sponsorship, episode} <- @episode_sponsorships |> Enum.filter(fn(es) -> es.episode.published end) |> Enum.map(fn(es) -> {es, es.episode} end) do %>
+      <tr>
+        <td><%= TimeView.terse_date(episode.published_at) %></td>
+        <td><%= EpisodeView.podcast_name_and_number(episode) %></td>
+        <td><%= sponsorship.title %></td>
+        <td>
+          <%= SharedHelpers.truncate(sponsorship.description, 100) %>
+        </td>
+        <td><%= SharedHelpers.pretty_downloads(episode) %></td>
+        <td class="center aligned">
+          <div class="ui small basic buttons">
+            <%= AdminHelpers.icon_link("eye", to: Routes.episode_path(@conn, :show, episode.podcast.slug, episode.slug)) %>
+            <button class="ui icon clipboard button" title="Copy Markdown" data-clipboard-text="<%= sponsorship.description %>"><i class="clipboard icon"></i></button>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+</div>
+<% end %>
+
+<%= if Enum.any?(@news_sponsorships) do %>
+<div class="ui basic segment">
+  <h2 class="ui header">Sponsored News (<%= @news_sponsorships |> length() |> SharedHelpers.comma_separated() %>)</h2>
+
+  <%= render(Admin.NewsSponsorshipView, "_table.html", conn: @conn, sponsorships: @news_sponsorships) %>
+</div>
+<% end %>

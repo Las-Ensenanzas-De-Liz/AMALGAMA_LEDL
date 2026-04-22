@@ -1,0 +1,15 @@
+<article class="news_item">
+  <%= render("_header.html", assigns) %>
+  <%= render("_toolbar.html", Map.put(assigns, :style, "date")) %>
+  <div class="news_item-content richtext">
+    <%= @item.story |> SharedHelpers.md_to_html() |> raw() %>
+    <%= if assigns[:highlight] do %>
+      <p><strong>Matched from the episode's <%= link("transcript", to: @item.url <> "#transcript") %> 👇</strong></p>
+      <div class="search-highlight"><%= @highlight |> SharedHelpers.md_to_html() |> raw() %></div>
+    <% end %>
+    <%= video_embed(@item) %>
+  </div>
+  <%= image_link(@item) %>
+
+  <%= render_footer(@conn, @item) %>
+</article>

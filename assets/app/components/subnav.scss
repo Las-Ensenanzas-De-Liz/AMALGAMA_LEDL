@@ -1,0 +1,76 @@
+.subnav {
+  margin-bottom: $base-spacing*1.5;
+  padding-top: 20px;
+  position: relative;
+
+  &:before {
+    border-bottom: 1px solid $light-grey;
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+  }
+
+  &-list {
+    display: flex;
+    justify-content: flex-start;
+
+    &-item {
+      flex: 0 auto;
+
+      a {
+        border-bottom: 1px solid transparent;
+        color: $black;
+        display: block;
+        font-size: 0.825em;
+        height: 42px;
+        padding: 0 0.5em 0.5em;
+        transform: translateY(1px);
+        transition: border 0.2s $base-easing;
+
+        @include breakpoint(tablet) {
+          font-size: 1em;
+          padding: 0 1em 1em;
+        }
+
+        small {
+          margin: 0;
+          position: relative;
+          top: -1px;
+
+          @include breakpoint(tablet, max) {
+            display: none;
+          }
+        }
+      }
+
+      &.is-active a,
+      a:hover {
+        border-bottom-color: $green;
+      }
+    }
+
+    &-item--right {
+      margin-left: auto;
+    }
+  }
+}
+
+.subnav_description {
+  color: $medium-grey;
+  font-family: $code;
+  font-size: 12px;
+  margin: 1.5em 0 2em 30px;
+  padding: 0 0.5em;
+
+  @include breakpoint(mobile) {
+    margin: -1.5em 0 2em 0px;
+  }
+
+  @include breakpoint(tablet) {
+    font-size: 14px;
+    margin: -1.5em 0 2em 0;
+    padding: 0 1em;
+  }
+}

@@ -1,0 +1,18 @@
+<%= render(SharedView, "_drift_js.html") %>
+
+<article class="article">
+  <div class="richtext">
+    <h1>Get in touch. Say hello 👋</h1>
+
+    <p><%= link("Request an episode", to: Routes.episode_request_path(@conn, :new)) %> of your favorite show.</p>
+
+    <p><%= link("Submit news", to: Routes.news_item_path(@conn, :new)) %> for publishing consideration.</p>
+
+    <p><%= link("Start here", to: ~p"/sponsor") %> for sponsorship opportunities.</p>
+
+    <p><a href="https://github.com/thechangelog/changelog.com/issues">Open an issue</a> with bug reports and feature requests.</p>
+
+    <p>For everything else, email <a href="mailto:editors@changelog.com?subject=Hello Changelog!">editors@changelog.com</a>.</p>
+
+  </div>
+</article>

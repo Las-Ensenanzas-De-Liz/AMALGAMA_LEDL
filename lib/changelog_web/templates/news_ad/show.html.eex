@@ -1,0 +1,11 @@
+<a id="feed" class="anchor"></a>
+<div class="feed">
+  <article class="news_item">
+    <%= render("_header.html", assigns) %>
+    <%= render("_toolbar.html", assigns) %>
+    <div class="news_item-content richtext">
+      <%= @ad |> story_as_html() |> raw() %>
+    </div>
+    <%= image_link(@ad) %>
+  </article>
+</div>

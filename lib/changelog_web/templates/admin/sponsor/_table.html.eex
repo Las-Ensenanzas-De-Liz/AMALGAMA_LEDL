@@ -1,0 +1,47 @@
+<table class="ui celled striped table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Links</th>
+      <th>Edited</th>
+      <th>Sponsored Eps</th>
+      <th>Reps</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <%= for sponsor <- @sponsors do %>
+    <tr>
+      <td>
+        <h4 class="ui image header">
+        <%= if sponsor.avatar do %>
+          <img src="<%= avatar_url(sponsor, :small) %>" class="ui image"/>
+        <% else %>
+          <img src="<%= logo_url(sponsor, :dark_logo, :small) %>" class="ui image"/>
+        <% end %>
+        </h4>
+        <%= sponsor.name %>
+      </td>
+      <td><div class="ui basic icon buttons"><%= sponsor |> list_of_links() |> raw() %></div></td>
+      <td><%= AdminHelpers.ts(sponsor.updated_at) %></td>
+      <td><%= sponsorship_count(sponsor, :episode) %></td>
+      <td>
+      <%= for person <- sponsor.reps do %>
+        <%= link to: ~p"/admin/people/#{person}", title: person.name, data: [popup: true] do %>
+          <img class="ui avatar image" src="<%= PersonView.avatar_url(person) %>">&nbsp;
+        <% end %>
+      <% end %>
+      </td>
+      <td class="center aligned">
+        <div class="ui small basic buttons">
+          <%= AdminHelpers.icon_link "eye", to: ~p"/sponsor/#{sponsor.id}", title: "View Public" %>
+          <%= AdminHelpers.icon_link("line chart", to: ~p"/admin/sponsors/#{sponsor.id}", title: "View Stats") %>
+          <%= AdminHelpers.icon_link "edit", to: ~p"/admin/sponsors/#{sponsor.id}/edit" %>
+          <%= AdminHelpers.icon_link "trash", to: ~p"/admin/sponsors/#{sponsor.id}", method: :delete, data: [confirm: "Are you sure?"] %>
+        </div>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

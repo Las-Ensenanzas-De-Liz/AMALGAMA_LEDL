@@ -1,0 +1,15 @@
+<tr>
+  <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
+    <p><%= greeting(@person) %></p>
+
+    <p>Welcome! <strong>Click the button below</strong> to confirm your account. Then you can:</p>
+
+    <%= render("_account_actions.html", assigns) %>
+
+    <p>We don't use passwords. Each time you sign in we’ll send you a temporary link to your email address. That’s one less password to worry about (yay!). <em>Here’s your first one:</em></p>
+
+    <%= render("_sign_in_link.html", Map.merge(assigns, %{cta: "Confirm my account!"})) %>
+
+    <p>💚, Logbot</p>
+  </td>
+</tr>

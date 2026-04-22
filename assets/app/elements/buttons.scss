@@ -1,0 +1,40 @@
+button {
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+.button {
+  @include button($black, $white);
+}
+
+.button_large {
+  @include button($green, $white);
+  display: inline-block;
+  font-size: 1.1875em;
+  margin-bottom: 1em;
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+}
+
+.button_small,
+.button_play {
+  @include button($green, $black);
+  display: inline-block;
+  margin-bottom: 1em;
+  padding: 0.9em 1.25em;
+  font-family: $code;
+  font-size: 0.75em;
+
+  &:hover { background-color: darken($green, 10%); }
+}
+
+.button_play {
+  padding-left: 3.5em;
+  background-image: url('../images/icons/icon-play-circle.svg');
+  background-repeat: no-repeat;
+  background-position: 1em center;
+}

@@ -1,0 +1,201 @@
+<div class="ten-thanks">
+  <ul class="ten-thanks-people">
+    <li>Feross Aboukhadijeh</li>
+    <li>Carmen Andoh</li>
+    <li>Kevin Ball</li>
+    <li>Mark Bates</li>
+    <li>Breanden Beneschott</li>
+    <li>Dan Benjamin</li>
+    <li>Chris Benson</li>
+    <li>Bharat Bhat</li>
+    <li>Johnny Boursiquot</li>
+    <li>Allan Branch</li>
+    <li>Steven Bristol</li>
+    <li>Jon Calhoun</li>
+    <li>Brett Cannon</li>
+    <li>Devin Carrillo</li>
+    <li>Tim Caswell</li>
+    <li>Alice Chan</li>
+    <li>Matt Chandler</li>
+    <li>Ryan Chartrand</li>
+    <li>Sam Coren</li>
+    <li>Russ Cox</li>
+    <li>David Cramer</li>
+    <li>Breakmaster Cylinder</li>
+    <li>Rob DiNuzzo</li>
+    <li>Dino DeRose</li>
+    <li>Jaana B. Dogan</li>
+    <li>Justin Dorfman</li>
+    <li>David Dorman</li>
+    <li>Aaron Dowd</li>
+    <li>Floor Drees</li>
+    <li>Josh Dzielak</li>
+    <li>Nadia Eghbal</li>
+    <li>Beth Faris</li>
+    <li>Donald Fischer</li>
+    <li>Tyler Van Fossen</li>
+    <li>Laura Franzese</li>
+    <li>Ted Garner</li>
+    <li>Ben Gillin</li>
+    <li>Chris Grams</li>
+    <li>Elaine Greenberg</li>
+    <li>Dave Greiner</li>
+    <li>Christopher Hiller</li>
+    <li>Drill Sgt. Hillard</li>
+    <li>Tracy Hinds</li>
+    <li>Suz Hinton</li>
+    <li>Jennifer Hooper</li>
+    <li>Steve Hotze</li>
+    <li>David Hsu</li>
+    <li>Sean Hughes</li>
+    <li>Ivana Ivanovic</li>
+    <li>Mark Jackson</li>
+    <li>Adam Jahnke</li>
+    <li>Nick Janetakis</li>
+    <li>Marques Johansson</li>
+    <li>Zibby Keaton</li>
+    <li>Brandon Keepers</li>
+    <li>Jane Kelly</li>
+    <li>Bill Kennedy</li>
+    <li>Alex Kessinger</li>
+    <li>Brian Ketelsen</li>
+    <li>Donald Kilgore</li>
+    <li>Travis Kimmel</li>
+    <li>Steve Klabnik</li>
+    <li>Dan Kohn</li>
+    <li>Gant Laborde</li>
+    <li>Cory LaNou</li>
+    <li>Quincy Larson</li>
+    <li>Victoria Lawton</li>
+    <li>Gerhard Lazu</li>
+    <li>Tracy Lee</li>
+    <li>Wilson Lemieux</li>
+    <li>Todd Lewis</li>
+    <li>Leann Livingston</li>
+    <li>Tobias Macey</li>
+    <li>Alexandru Maier</li>
+    <li>Frank Maio</li>
+    <li>John Malone</li>
+    <li>Jen Marley</li>
+    <li>Jessica Martin</li>
+    <li>Kelly Martin</li>
+    <li>Ashley McNamara</li>
+    <li>Jeff Meyerson</li>
+    <li>Trisha Mingus</li>
+    <li>Danielle Morrill</li>
+    <li>Beverly Nelson</li>
+    <li>Wynn Netherland</li>
+    <li>Pablo Nevares</li>
+    <li>Nick Nisi</li>
+    <li>Duane O'Brien</li>
+    <li>Katrina Owen</li>
+    <li>Josh Owens</li>
+    <li>Louda Pena</li>
+    <li>Cody Peterson</li>
+    <li>Carlisa Pinto</li>
+    <li>Corey Rabazinski</li>
+    <li>Guillermo Rauch</li>
+    <li>Mireille Reece</li>
+    <li>Kenneth Reitz</li>
+    <li>David Roesch</li>
+    <li>Mikeal Rogers</li>
+    <li>Rachel Romoff</li>
+    <li>Horst Rutter</li>
+    <li>Mat Ryer</li>
+    <li>Cassandra Salisbury</li>
+    <li>Connie Santo</li>
+    <li>Rachel Santo</li>
+    <li>Terry Santo</li>
+    <li>Divya Sasidharan</li>
+    <li>Jason Sawyer</li>
+    <li>Leo Schramm</li>
+    <li>Jason Seifer</li>
+    <li>Alex Sexton</li>
+    <li>Lindsay Shaw</li>
+    <li>Shannon Skipper</li>
+    <li>Sid Sijbrandij</li>
+    <li>Courtland Smith</li>
+    <li>Emelia Smith</li>
+    <li>Mike Smith</li>
+    <li>Tim Smith</li>
+    <li>Sam Soffes</li>
+    <li>Freyja Spaven</li>
+    <li>Linda Stacoviak</li>
+    <li>Heather Stacoviak</li>
+    <li>Mike Stearns</li>
+    <li>Casey Stegman</li>
+    <li>Erik St. Martin</li>
+    <li>Jake Stutzman</li>
+    <li>Etel Sverdlov</li>
+    <li>Andrew Thorp</li>
+    <li>Gary Vaynerchuk</li>
+    <li>Mitch Wainer</li>
+    <li>Chris Wanstrath</li>
+    <li>Emma Wedekind</li>
+    <li>Emma Webb</li>
+    <li>Drill Sgt. Weekly</li>
+    <li>Manuel Weiss</li>
+    <li>Jessica West</li>
+    <li>Kevin White</li>
+    <li>Rachel White</li>
+    <li>Daniel Whitenack</li>
+    <li>Natasha Woods</li>
+    <li>Saron Yitbarek</li>
+    <li>Micah Yost</li>
+    <li>Jonathan Youngblood</li>
+    <li>Philipp Zurmöhle</li>
+  </ul>
+  <hr>
+  <div class="ten-thanks-companies logo_grid">
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/fastly.png") %>' alt="Fastly logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/rollbar.png") %>' alt="Rollbar Logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/linode.png") %>' alt="Linode logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/algolia.png") %>' alt="Algolia logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/gitprime.png") %>' alt="GitPrime logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/digital-ocean.png") %>' alt="Digital Ocean logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/tidelift.png") %>' alt="Tidelift logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/github.png") %>' alt="Github logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/elixir-phoenix.png") %>' alt="Elixir and Phoenix"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/go-cd.png") %>' alt="GoCD logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/circle-ci.png") %>' alt="CircleCI logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/datadog.png") %>' alt="Datadog logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/heroku.png") %>' alt="Heroku logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/oreilly.png") %>' alt="Oreilly logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/oscon.png") %>' alt="OSCON logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/ato.png") %>' alt="All Things Open logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/redhat.png") %>' alt="Redhat logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/command-line-heroes.png") %>' alt="Command Line Heroes logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/google.png") %>' alt="Google logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/go.png") %>' alt="Go logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/gauge.png") %>' alt="Gauge logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/microsoft.png") %>' alt="Microsoft logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/linux-foundation.png") %>' alt="Linux Foundation logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/kubecon.png") %>' alt="KubeCon logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/intel.png") %>' alt="Intel logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/node-js-interactive.png") %>' alt="Nose JS Interactive logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/sentry.png") %>' alt="Sentry logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/slack.png") %>' alt="Slack logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/stripe.png") %>' alt="Stripe logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/gitlab.png") %>' alt="GitLab logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/square.png") %>' alt="Square logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/toptal.png") %>' alt="Toptal logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/auth0.png") %>' alt="Auth0 logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/clubhouse.png") %>' alt="Clubhouse logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/codacy.png") %>' alt="Codacy logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/heap.png") %>' alt="Heap logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/ibm.png") %>' alt="IBM logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/hired.png") %>' alt="Hired logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/indeed.png") %>' alt="Indeed logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/infinite-red.png") %>' alt="Infinite Red logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/manifold.png") %>' alt="Manifold logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/mongodb.png") %>' alt="MongoDB logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/raygun.png") %>' alt="Raygun logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/retool.png") %>' alt="Retool logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/segment.png") %>' alt="Segment logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/stream.png") %>' alt="Stream logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/strongdm.png") %>' alt="strongDM logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/testim.png") %>' alt="Testim logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/xteam.png") %>' alt="X-Team logo"></span>
+    <span class="logo_grid-item"><img loading="lazy" src='<%= url(~p"/images/content/ten/sponsors/campaign-monitor.png") %>' alt="Campaign Monitor logo"></span>
+  </div>
+</div>

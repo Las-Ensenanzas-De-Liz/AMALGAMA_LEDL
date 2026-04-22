@@ -1,0 +1,27 @@
+<section class="signup js-subscribe_cta">
+  <div class="signup-content">
+    <div class="signup-icons">
+      <div class="signup-icons-item signup-icons-item--news"></div>
+      <div class="signup-icons-item signup-icons-item--podcasts"></div>
+    </div>
+    <h1 class="signup-heading">News and podcasts for developers</h1>
+    <p class="signup-text">Subscribe to get the latest news and podcasts for developers in your inbox, <em>every&nbsp;week</em>.<br />
+    We make it <em>super easy</em> to keep up with developer news that&nbsp;matters.</p>
+
+  <%= if @current_user do %>
+    <%= link("Manage Subscriptions", to: Routes.home_path(@conn, :show), class: "button_large") %>
+  <% else %>
+    <%= form_tag Routes.person_path(@conn, :subscribe, "news"), class: "signup-form", method: "get" do %>
+      <input name="email" class="signup-form-input" placeholder="you@example.com" aria-label="you@example.com" required/>
+      <div class="signup-form-submit">
+        <input class="signup-form-submit-button" type="submit" value="I'm in!">
+      </div>
+    <% end %>
+
+    <p class="signup-sign_in">Already a member? <em><%= link "Sign in", to: Routes.sign_in_path(@conn, :new) %></em></p>
+  <% end %>
+  </div>
+  <%= if SharedHelpers.controller_action_combo(@conn) == "news_item-index" do %>
+    <button class="signup-close js-hide-subscribe-cta"  aria-label="Close">✕</button>
+  <% end %>
+</section>

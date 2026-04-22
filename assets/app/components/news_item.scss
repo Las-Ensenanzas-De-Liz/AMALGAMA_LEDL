@@ -1,0 +1,416 @@
+@use "sass:math";
+
+.news_item {
+  $condensedBreakpoint: 1000px;
+  $horizontal-padding: 20px;
+  border-bottom: 1px solid $light-grey;
+  margin-top: $base-spacing;
+  padding: 0 $horizontal-padding $base-spacing;
+  position: relative;
+
+  &--sponsor {
+    background-color: $highlight;
+    margin-top: 0;
+    padding-top: $base-spacing !important;
+  }
+
+  &:last-of-type {
+    border: none;
+  }
+
+  .page_news_item & {
+    border-bottom: 0;
+  }
+
+  @include breakpoint($condensedBreakpoint) {
+    padding: 0 $base-spacing $base-spacing;
+  }
+
+  &-header,
+  &-toolbar {
+    a {
+      color: $black;
+
+      &:hover {
+        color: #000;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &-source {
+    align-items: center;
+    display: flex;
+    font-family: $code;
+    font-size: 0.8125em;
+    margin: 0 0 10px;
+
+    &-image {
+      $size: 24px;
+      box-shadow: 0 0 $size rgba($black, 0.2);
+      color: $white;
+      font-family: $code;
+      font-size: 7px;
+      font-weight: 700;
+      height: $size;
+      margin-right: 10px;
+      position: relative;
+      text-align: center;
+      width: $size;
+
+      &-icon,
+      img {
+        background: $white;
+        border-radius: $base-border-radius;
+        position: absolute;
+        line-height: 1em;
+        width: $size;
+        height: $size;
+        top: 0;
+        left: 0;
+      }
+
+      &--episode img {
+        border-radius: 0;
+      }
+
+      &-icon {
+        background-color: $black;
+        color: $white;
+        font-size: 12px;
+        line-height: $size;
+        text-transform: uppercase;
+
+        &--link {
+          background: $black url("../images/defaults/type-link.png") no-repeat
+            center;
+          background-size: 20px;
+        }
+        &--project {
+          background: $black url("../images/defaults/type-project.png")
+            no-repeat center;
+          background-size: 20px;
+        }
+
+        @include breakpoint(mobile) {
+          background-size: 30px !important;
+          font-size: 18px;
+          line-height: $size;
+        }
+      }
+
+      @include breakpoint($condensedBreakpoint) {
+        $size: 70px;
+        height: $size;
+        left: 0px;
+        line-height: $size;
+        position: absolute;
+        width: $size;
+        top: 5px;
+
+        .news_item--sponsor & {
+          top: 45px;
+        }
+
+        .page_news_item & {
+          left: -50px;
+        }
+
+        &-icon,
+        img {
+          width: $size;
+          height: $size;
+        }
+      }
+    }
+  }
+
+  &-title {
+    font-size: 1.25em;
+    line-height: 1.25em;
+    margin: 10px 0;
+
+    .page_news_item--post & {
+      font-size: 2em;
+    }
+
+    &-external {
+      background: url("../images/icons/icon-external.svg") no-repeat center;
+      display: inline-block;
+      height: 15px;
+      margin-left: 0.25em;
+      margin-right: -15px;
+      width: 15px;
+      position: relative;
+    }
+  }
+
+  &-subtitle {
+    color: $dark-grey;
+    font-size: 1.25em;
+    line-height: 1.25em;
+    margin: 0 0 1em;
+
+    .page_news_item--post & {
+      font-size: 1.25em;
+      font-weight: 500;
+      color: $medium-grey;
+    }
+  }
+
+  &-description {
+    display: block;
+    margin-bottom: 1em;
+    max-height: 3em;
+    overflow: hidden;
+    position: relative;
+
+    p {
+      color: $black;
+      margin: 0;
+    }
+
+    &-continue {
+      background: $white;
+      bottom: 1px;
+      color: $black !important;
+      font-family: $code;
+      font-size: 0.75em;
+      font-weight: bold;
+      line-height: 1.5em;
+      padding: 0 0 0.25em 0.5em;
+      position: absolute;
+      right: 0;
+      text-decoration: underline;
+
+      .news_item--sponsor & {
+        background: $highlight;
+      }
+
+      @include breakpoint(mobile) {
+        span {
+          transition: all 0.15s $base-easing;
+          opacity: 0;
+        }
+        .news_item-description:hover & {
+          span {
+            opacity: 1;
+          }
+        }
+      }
+
+      &:before {
+        $size: 40px;
+        content: "";
+        background: linear-gradient(90deg, rgba($white, 0), $white);
+        bottom: 0;
+        display: block;
+        left: -#{$size};
+        pointer-events: none;
+        position: absolute;
+        width: $size;
+        top: 0;
+
+        .news_item--sponsor & {
+          background: linear-gradient(90deg, rgba($highlight, 0), $highlight);
+        }
+      }
+    }
+  }
+
+  &-toolbar {
+    align-items: center;
+    display: flex;
+    @include breakpoint(mobile, max) {
+      align-items: flex-start;
+    }
+
+    &-play_button,
+    &-video_button,
+    &-image_button,
+    &-meta {
+      margin-right: math.div($base-spacing, 3);
+    }
+
+    &-play_button,
+    &-video_button,
+    &-image_button {
+      background-color: $white;
+      background-position: center;
+      background-repeat: no-repeat;
+      border: 1px solid $light-grey;
+      border-radius: $base-border-radius;
+      padding: 0.5em 0.3em 0.3em;
+      height: 33px;
+      min-width: 40px;
+      text-indent: -9999px;
+    }
+
+    &-video_button,
+    &-image_button {
+      .page-news_item-show &,
+      .page-news_ad-show & {
+        display: none;
+      }
+    }
+
+    &-play_button {
+      background-image: url("../images/icons/toolbar-play.svg");
+      &.is-active {
+        background-image: url("../images/icons/toolbar-pause.svg");
+      }
+    }
+
+    &-video_button {
+      background-image: url("../images/icons/icon-youtube-black.svg");
+      &.is-active {
+        background-image: url("../images/icons/toolbar-close.svg");
+      }
+    }
+
+    &-image_button {
+      background-image: url("../images/icons/toolbar-image.svg");
+      background-size: auto 22px;
+      &.is-active {
+        background-image: url("../images/icons/toolbar-close.svg");
+      }
+    }
+
+    &-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      font-family: $code;
+      font-size: 0.8125em;
+      line-height: 1.5em;
+      margin-left: -4px;
+      margin-right: -4px;
+
+      &-item {
+        padding: 0 4px;
+
+        .has-tooltip {
+          cursor: pointer;
+        }
+
+        &:after {
+          content: "\2022";
+        }
+        &:last-child:after {
+          display: none;
+        }
+      }
+
+      @include breakpoint(mobile, max) {
+        font-size: 0.6825em;
+        line-height: 1.675em;
+
+        &-item {
+          &:first-child {
+            flex: 0 0 100%;
+            &:after {
+              display: none;
+            }
+          }
+        }
+      }
+
+      &-item__featuring {
+        margin-top: 5px;
+        margin-right: 10px;
+
+        a:hover {
+          text-decoration: none;
+        }
+
+        img {
+          background: $lightest-grey;
+          border-radius: 2px;
+          display: inline-flex;
+          height: 24px;
+          width: 24px;
+          overflow: hidden;
+        }
+
+        &:after {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &-content {
+    .page_news_item--post & {
+      @include breakpoint(tiny) {
+        font-size: 1.125em;
+      }
+      @include breakpoint(tablet) {
+        font-size: 1.125em;
+      }
+    }
+
+    margin-top: 2em;
+  }
+
+  &-meta {
+    border-top: 1px solid $light-grey;
+    font-family: $code;
+    font-size: 0.9375em;
+    margin-top: $base-spacing;
+    padding-top: $base-spacing;
+
+    &-item {
+      @include breakpoint(mobile) {
+        justify-content: flex-start;
+        display: flex;
+      }
+
+      span {
+        display: block;
+        margin-bottom: 0.5em;
+      }
+
+      &-key {
+        padding-right: 1em;
+      }
+
+      &-value a {
+        color: $base-link-color;
+        &:hover {
+          color: $base-hover-color;
+        }
+      }
+    }
+  }
+
+  &-image {
+    &.is-hidden {
+      display: none;
+    }
+
+    img {
+      margin-top: 1.5em;
+      max-width: 100%;
+    }
+  }
+
+  &-video {
+    @include video_container();
+  }
+
+  &-footer {
+    margin-top: 2em;
+    font-family: $code;
+    font-size: 0.8125em;
+    line-height: 1.5em;
+
+    span {
+      margin-right: 1em;
+    }
+
+    a {
+      color: $black;
+      text-decoration: underline;
+    }
+  }
+}

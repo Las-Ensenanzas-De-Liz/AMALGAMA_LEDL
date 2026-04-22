@@ -1,0 +1,1 @@
+<%= link(@source.name, to: Routes.news_source_path(@conn, :show, @source.slug), title: @source.name) %>

@@ -1,0 +1,204 @@
+.page-live-index, .page-live-show {
+  background-color: $black;
+
+  .main {
+    align-items: center;
+    display: flex;
+  }
+
+  .footer {
+    display: none;
+  }
+}
+
+.live.is-upcoming {
+  .live-footer-status {
+    background-color: $green;
+  }
+
+  .live-footer-viewers {
+    display: none;
+  }
+}
+
+.live {
+  color: $white;
+  padding: 60px 0 160px;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  padding: 80px 0 100px;
+  height: 100%;
+
+  &-content {
+    @include large-play-button(".live", 2rem, 6rem);
+    margin: $padding-medium auto;
+    max-width: 1080px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  // Info
+  &-info {
+    z-index: 3;
+    max-width: 880px;
+    position: relative;
+    padding: 0 $padding-medium;
+    width: 100%;
+    flex: 1 1 600px;
+
+    // Header
+    &-header {
+      color: $white;
+      text-align: center;
+
+      &-show {
+        font-size: 1.5em;
+        font-weight: normal;
+        margin-top: 0;
+        text-transform: none;
+      }
+
+      &-title {
+        font-size: 1.5em;
+        line-height: 1.25em;
+      }
+
+      &-title.error {
+        font-size: 1.2em;
+        color: #FF5252;
+        a {
+          color: #FF5252;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    // Description
+    &-description {
+      color: $medium-grey;
+      font-size: 1em;
+      margin: 0 auto 30px;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    // Guests
+    &-guests {
+      display: none;
+      justify-content: center;
+
+      @media (min-width: $tablet) {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      &-item {
+        flex: 0 0 180px;
+        padding: 0 10px;
+        text-align: center;
+
+        a { display: block; }
+
+        .live-info-guests--3 & {
+          flex: 0 0 150px;
+        }
+
+        .live-info-guests--4 &,
+        .live-info-guests--5 &,
+        .live-info-guests--6 & {
+          flex: 0 0 130px;
+          font-size: 12px;
+        }
+
+        &-image {
+          $size: 100px;
+          background: lighten($black, 10%);
+          border-radius: $size;
+          box-shadow: 0 15px 30px rgba(#000, 0.8);
+          color: $black;
+          display: block;
+          font-size: 2em;
+          font-weight: bold;
+          margin: 0 auto $padding-small;
+          line-height: ($size * 1.1);
+          width: $size;
+          height: $size;
+          opacity: 1;
+
+          .live-info-guests--3 & {
+            $size: 75px;
+            line-height: ($size * 1.1);
+            width: $size;
+            height: $size;
+          }
+
+          .live-info-guests--4 &,
+          .live-info-guests--5 &,
+          .live-info-guests--6 & {
+            $size: 50px;
+            line-height: ($size * 1.1);
+            width: $size;
+            height: $size;
+          }
+        }
+        &-title {
+          @extend %display-font;
+          font-size: 1em;
+          margin: 0 0 0.5em;
+        }
+        &-name {
+          @extend %display-font;
+          font-size: 1.25em;
+          font-weight: normal;
+          color: $white;
+          margin: 0;
+          text-transform: none;
+        }
+      }
+    }
+
+    // Slack CTA
+    &-cta {
+      margin: 40px 0 0;
+      text-align: center;
+
+      &,
+      p,
+      a {
+        color: $white;
+      }
+
+      &-icon {
+        margin: 0 auto 4px;
+      }
+
+      p {
+        font-size: 1em;
+        line-height: 1.25em;
+        margin: 0.25em 0;
+
+        a {
+          transition: opacity 0.3s $ease-in-out-quad;
+          font-weight: bold;
+
+          &:hover {
+            opacity: 0.6;
+          }
+        }
+
+        small {
+          display: block;
+          color: $green;
+          line-height: 1.5em;
+
+          a {
+            color: $green;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}

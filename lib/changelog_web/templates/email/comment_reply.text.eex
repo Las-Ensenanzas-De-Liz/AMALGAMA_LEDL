@@ -1,0 +1,19 @@
+<%= greeting(@person) %>
+
+
+<%= PersonView.handle(@reply.author) %> replied to you on Changelog News, saying:
+
+<%= @reply.content %>
+
+
+Reply here: <%= comment_url(@item, @reply) %>
+
+Seen enough? Mute this discussion:
+
+<%= PersonView.opt_out_url(@person, "news", @item.id) %>
+
+Or disable reply notifications all together:
+
+<%= PersonView.opt_out_url(@person, "setting", "email_on_comment_replies") %>
+
+💚, Logbot

@@ -1,0 +1,18 @@
+<article class="auth">
+  <h1 class="auth-header">Finalizing...</h1>
+
+  <%= form_for @conn, Routes.home_path(@conn, :opt_out, @token, @type, @id), [id: "finalize", class: "form form--full_width"], fn _f -> %>
+    <noscript>
+      <div class="form-submit">
+        <div class="form-submit-note">
+          JavaScript disabled. Click the button!
+        </div>
+        <input type="submit" value="Finalize">
+      </div>
+    </noscript>
+  <% end %>
+</article>
+
+<script type="text/javascript">
+  document.getElementById("finalize").submit();
+</script>

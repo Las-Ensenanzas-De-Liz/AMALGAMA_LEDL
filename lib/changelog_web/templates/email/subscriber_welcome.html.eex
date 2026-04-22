@@ -1,0 +1,13 @@
+<tr>
+  <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
+    <p><%= greeting(@person) %></p>
+
+    <p><strong>Click the button below</strong> to confirm your <%= @subscribed_to.name %> subscription!</p>
+
+    <p>(Changed your mind? Received this in error? Don't click the button! Delete this email and enjoy the rest of your day. We'll purge your account and forget this ever happened ✊)</p>
+
+    <%= render("_sign_in_link.html", Map.merge(assigns, %{cta: "Confirm my subscription!"})) %>
+
+    <p>💚, Logbot</p>
+  </td>
+</tr>

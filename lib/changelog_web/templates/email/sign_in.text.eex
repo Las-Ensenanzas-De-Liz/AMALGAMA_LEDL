@@ -1,0 +1,8 @@
+<%= greeting(@person) %>
+
+
+You requested a magic sign-in link. Here you go:
+
+<%= render("_sign_in_link.text", assigns) %>
+
+💚, Logbot

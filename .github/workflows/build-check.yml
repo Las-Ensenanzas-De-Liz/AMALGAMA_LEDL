@@ -1,0 +1,32 @@
+name: build-check
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - master
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/**/.cache
+          key: |
+            ${{ runner.os }}-docusaurus-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-docusaurus-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Build docusaurus
+        run: |
+          cd website && yarn
+          yarn build:preview
+        env:
+          NODE_OPTIONS: --max-old-space-size=8192

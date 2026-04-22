@@ -1,0 +1,16 @@
+node_modules/
+.DS_Store
+.DS_Store?
+*/.DS_Store
+website/secrets.js
+website/secrets.env
+website/build/*
+website/i18n/*
+website/.docusaurus/*
+website/package-lock.json
+website/yarn.lock
+neardev
+.idea
+.docz
+serve*
+.vscode

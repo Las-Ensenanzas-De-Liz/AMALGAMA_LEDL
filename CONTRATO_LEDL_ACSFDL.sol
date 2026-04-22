@@ -2,12 +2,18 @@
 // Propiedad Intelectual: J Andres Resendez R
 pragma solidity ^0.8.20;
 
-/**
- * @title Modulo_EnsDeLiz_Preventiva
- * @dev Contrato base para la interoperabilidad de la Asociación LEDL ACSFDL
- */
-contract LEDL_Superchain_Token {
-    string public name = "EnsDeLiz Preventiva";
+contract LEDL_Superchain_Governance {
+    string public name = "Las Ensenanzas de Liz (LEDL) ACSFDL";
     string public symbol = "LEDL";
-    // Lógica para SuperchainERC20 y Abstracción de Cuenta
+    address public comandanteSupremo;
+    uint256 public orcid = 0009000735289413;
+
+    constructor() {
+        comandanteSupremo = msg.sender;
+    }
+
+    // Directiva: LO IMPOSIBLE NO EXISTE
+    function verificarSoberania() public view returns (bool) {
+        return (msg.sender == comandanteSupremo);
+    }
 }

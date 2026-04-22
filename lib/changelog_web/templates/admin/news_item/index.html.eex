@@ -1,0 +1,57 @@
+<div class="ui basic segment">
+  <h1 class="ui dividing header">
+    News &raquo; Items
+    <div class="sub header">Hot off the press</div>
+  </h1>
+
+  <div class="actions right">
+    <button class="ui basic icon clipboard button" title="Bookmarklet" data-clipboard-text="<%= bookmarklet_code() %>"><i class="book icon"></i></button>
+
+    <div class="ui primary basic buttons">
+      <%= link("Items", to: Routes.admin_news_item_path(@conn, :index), class: "ui button") %>
+      <%= link to: Routes.admin_news_item_path(@conn, :new), class: "ui icon button" do %>
+        <i class="add icon"></i>
+      <% end %>
+    </div>
+
+  <%= if Policies.AdminsOnly.index(@current_user) do %>
+    <div class="ui basic buttons">
+      <%= link("Sources", to: Routes.admin_news_source_path(@conn, :index), class: "ui button") %>
+      <%= link to: Routes.admin_news_source_path(@conn, :new), class: "ui icon button" do %>
+        <i class="add icon"></i>
+      <% end %>
+    </div>
+
+    <div class="ui basic buttons">
+      <%= link("Issues", to: Routes.admin_news_issue_path(@conn, :index), class: "ui button") %>
+      <%= link to: Routes.admin_news_issue_path(@conn, :new), class: "ui icon button" do %>
+        <i class="add icon"></i>
+      <% end %>
+    </div>
+
+    <div class="ui basic buttons">
+      <%= link("Comments", to: Routes.admin_news_item_comment_path(@conn, :index), class: "ui button") %>
+    </div>
+  <% end %>
+  </div>
+</div>
+
+<div class="ui basic segment">
+  <%= if Enum.any?(@drafts) do %>
+    <h2 id="drafts" class="ui header">My Drafts</h2>
+    <%= render("_table.html", Map.merge(assigns, %{status: :draft, items: @drafts})) %>
+  <% end %>
+
+<%= if Policies.AdminsOnly.index(@current_user) do %>
+  <%= if Enum.any?(@submitted) do %>
+    <h2 id="submitted" class="ui header">Submitted</h2>
+    <%= render("_table.html", Map.merge(assigns, %{status: :submitted, items: @submitted})) %>
+  <% end %>
+<% end %>
+
+<%= if Enum.any?(@published) do %>
+  <h2 id="published" class="ui header">Published (<%= @page.total_entries |> SharedHelpers.comma_separated %>)</h2>
+  <%= render("_table.html", Map.merge(assigns, %{status: :published, items: @published})) %>
+  <%= render(SharedView, "_pagination.html", assigns) %>
+<% end %>
+</div>

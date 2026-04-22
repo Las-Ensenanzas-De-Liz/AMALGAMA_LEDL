@@ -1,0 +1,220 @@
+@use "sass:math";
+
+// General Tooltip Styles
+.tooltip {
+  $arrowSize: 10px;
+  $background: #252b32;
+  $padding: 10px 20px;
+  font-family: $content;
+  display: none;
+  margin: $arrowSize 0;
+  text-align: left;
+  z-index: 9999;
+
+  &.is-visible {
+    display: block;
+  }
+
+  a,
+  li a {
+    color: $white;
+    text-decoration: none !important;
+    &:hover {
+      color: rgba($white, 0.8);
+    }
+  }
+
+  &-wrap {
+    background: $background;
+
+    .tooltip--topics & {
+      font-family: $code;
+    }
+  }
+
+  &-list {
+    padding: $padding;
+
+    .tooltip--topics & {
+      padding: 3px 15px 6px;
+    }
+
+    &--centered {
+      text-align: center;
+    }
+
+    li {
+      color: $white;
+      font-size: 16px;
+      font-style: normal;
+      line-height: 1.25em;
+      padding: 0.25em 1em 0.25em 0;
+
+      .tooltip--topics & {
+        font-size: 13px;
+      }
+
+      &.tooltip-list-heading {
+        color: $half-white;
+        font-size: 12px;
+        font-weight: normal;
+        margin-bottom: 5px;
+      }
+    }
+
+    .show-header-subscribe & li {
+      padding-right: 0;
+    }
+  }
+
+  &-footer {
+    border-top: 1px solid #333a42;
+    padding: $padding;
+  }
+
+  //
+  //
+  // Arrow Style and Placement
+  &-arrow {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    margin: $arrowSize;
+    border-color: $background;
+  }
+
+  &[x-placement^="top"] {
+    margin-bottom: $arrowSize + 5px;
+  }
+  &[x-placement^="top"] .tooltip-arrow {
+    border-width: $arrowSize $arrowSize 0 $arrowSize;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    bottom: -$arrowSize;
+    left: calc(50% - #{$arrowSize * 2});
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  &[x-placement^="bottom"] {
+    margin-top: $arrowSize + 5px;
+  }
+  &[x-placement^="bottom"] .tooltip-arrow {
+    border-width: 0 $arrowSize $arrowSize;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    top: -$arrowSize;
+    left: calc(50% - #{$arrowSize * 2});
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  &[x-placement^="bottom-end"] .tooltip-arrow {
+    left: auto;
+    right: 0;
+    margin-right: 0;
+  }
+  &[x-placement^="bottom-start"] .tooltip-arrow {
+    right: auto;
+    left: 0;
+    margin-left: 0;
+  }
+  &[x-placement^="right"] {
+    margin-left: $arrowSize + 5px;
+  }
+  &[x-placement^="right"] .tooltip-arrow {
+    border-width: $arrowSize $arrowSize $arrowSize 0;
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    left: -$arrowSize;
+    top: calc(50% - #{$arrowSize * 2});
+    margin-left: 0;
+    margin-right: 0;
+  }
+  &[x-placement^="left"] {
+    margin-right: $arrowSize + 5px;
+  }
+  &[x-placement^="left"] .tooltip-arrow {
+    border-width: $arrowSize 0 $arrowSize $arrowSize;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    right: -$arrowSize;
+    top: calc(50% - #{$arrowSize * 2});
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+//
+//
+// Profile Tooltip
+.profile_tooltip {
+  max-width: 220px;
+
+  &-header {
+    display: flex;
+    padding: math.div($base-spacing, 2);
+    width: 100%;
+
+    &:hover {
+      background: $black;
+    }
+
+    &-avatar {
+      $size: 40px;
+      background: #000;
+      box-shadow: 0 0 $size rgba($black, 0.2);
+      font-size: 8px;
+      border-radius: $base-border-radius;
+      width: $size;
+      height: $size;
+      margin-right: 15px;
+    }
+    &-info {
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      &-name {
+        color: $white;
+        font-size: 16px;
+        line-height: 1em;
+        margin: 0 0 3px;
+      }
+      &-location {
+        color: $medium-grey;
+        line-height: 1em;
+        margin: 0;
+      }
+    }
+  }
+
+  &-info {
+    border-top: 2px solid #333a42;
+    padding: math.div($base-spacing, 2);
+
+    p {
+      color: $white;
+      font-size: 13px;
+    }
+
+    &-links {
+      li {
+        display: inline-block;
+        font-size: 13px;
+        margin-right: 0.5em;
+        a {
+          border-bottom: 1px solid transparent;
+          color: $green;
+
+          &:hover {
+            border-bottom-color: $green;
+            color: $green;
+          }
+        }
+      }
+    }
+  }
+}

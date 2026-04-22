@@ -1,0 +1,417 @@
+@use "sass:math";
+
+.marketing {
+  font-size: 16px;
+  overflow-x: hidden;
+
+  hr {
+    border: 1px solid $border-color;
+    clear: both;
+    margin: 0 auto;
+    max-width: 860px;
+    padding: 0 $base-spacing;
+    width: 100%;
+  }
+
+  // Button Group
+  &-button_group {
+    $max-width-group: 540px;
+    $min-width-button: 160px;
+    --max-width-group: 540px;
+    --min-width-button: 160px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: $base-spacing auto 0;
+    max-width: $max-width-group;
+    max-width: var(--max-width-group);
+
+    .button_large {
+      min-width: $min-width-button;
+      min-width: var(--min-width-button);
+
+      margin: 10px;
+
+      @media (min-width: $tablet) {
+        flex: 1 0 0;
+      }
+    }
+  }
+  p.button_note {
+    color: $medium-grey;
+    font-size: 13px !important;
+    font-style: italic;
+    margin-top: 0.75em;
+
+    a {
+      color: $medium-grey;
+    }
+  }
+
+  // Section
+  &-section {
+    padding: 40px 0;
+
+    @include breakpoint(mobile) {
+      padding: 50px 0;
+    }
+    @include breakpoint(tablet) {
+      padding: 60px 0;
+    }
+
+    & > *:first-child {
+      margin-top: 0;
+    }
+    & > *:last-child {
+      margin-bottom: 0;
+    }
+
+    &--no_top_padding {
+      padding-top: 0;
+    }
+
+    &--dark,
+    &--map,
+    &--intro {
+      background: $black;
+      color: $white;
+
+      p {
+        color: $half-white;
+      }
+    }
+
+    &--intro {
+      .marketing--community & {
+        background: $black url("../images/content/community/grid.jpg") top
+          center;
+        background-size: 1300px;
+      }
+    }
+
+    &--body {
+      p > a,
+      li > a {
+        color: $black;
+        font-weight: 500;
+        border-bottom: 2px solid $light-grey;
+
+        &:hover {
+          border-color: rgba($green, 0.3);
+          color: $green;
+        }
+      }
+    }
+
+    &-wrap {
+      margin: $base-spacing auto 0;
+      max-width: 1140px;
+      padding: 0 $base-spacing;
+    }
+
+    &-header,
+    &-footer {
+      margin: $padding-large auto;
+      max-width: 880px;
+      padding: 0 $padding-large;
+      text-align: center;
+    }
+
+    &-header {
+      i {
+        img {
+          margin: 0 auto;
+        }
+      }
+
+      &-leadin {
+        font-family: $code;
+        font-size: 14px !important;
+        margin-bottom: $base-spacing;
+      }
+
+      & > img {
+        text-align: center;
+        margin: math.div($base-spacing, 2) auto $base-spacing;
+        max-width: 370px;
+        padding: 0 $base-spacing;
+        width: 100%;
+
+        @include breakpoint(tablet) {
+          margin-bottom: $base-spacing * 2;
+        }
+      }
+
+      h1 {
+        font-size: 1.5em;
+        line-height: 1.25em;
+        margin: 0 0 1.125em;
+        @include breakpoint(tiny) {
+          font-size: 1.75em;
+        }
+        @include breakpoint(tablet) {
+          font-size: 2em;
+        }
+
+        @include breakpoint(tablet, max) {
+          br {
+            display: none;
+          }
+        }
+
+        .marketing-section--map & {
+          color: $half-white;
+          font-size: 1.25em;
+          line-height: 1.5em;
+          @media (min-width: $tablet) {
+            font-size: 1.5em;
+          }
+        }
+      }
+
+      h2,
+      h3 {
+        margin: 1em 0;
+      }
+
+      h2 {
+        font-size: 1.5em;
+        @media (min-width: $tablet) {
+          font-size: 1.75em;
+        }
+      }
+
+      h3 {
+        font-size: 1.25em;
+        font-weight: normal;
+        line-height: 1.5em;
+        @media (min-width: $tablet) {
+          font-size: 1.5625em;
+        }
+
+        .marketing-section--map & {
+          color: $half-white;
+        }
+      }
+
+      p {
+        font-size: 1.125em;
+        @media (min-width: $tablet) {
+          font-size: 1.25em;
+        }
+      }
+
+      .marketing-section--intro & p {
+        font-size: 1em;
+        @media (min-width: $tablet) {
+          font-size: 1.125em;
+        }
+      }
+
+      p.button_note a {
+        color: $half-white;
+      }
+    }
+
+    &-centered {
+      text-align: center;
+    }
+
+    // Community Features
+    &-features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin: $padding-large * 2 auto $padding-large;
+      max-width: 1080px;
+      text-align: center;
+      padding: 0 $padding-large;
+      text-align: center;
+
+      &-item {
+        flex: 0 0 50%;
+        padding: 0.5rem;
+
+        @media (min-width: $tablet) {
+          flex: 0 0 20%;
+        }
+
+        img {
+          transition: all 0.2s ease-in-out;
+          display: block;
+          margin: 0 auto 1em;
+        }
+
+        span {
+          color: $white;
+          font-size: 12px;
+          display: block;
+          line-height: 1.25em;
+
+          @media (min-width: $tablet) {
+            font-size: 14px;
+          }
+        }
+
+        a {
+          display: block;
+
+          &:hover img {
+            transform: translateY(-5px);
+          }
+        }
+      }
+    }
+
+    // Content (Two Columns)
+    &-content {
+      $breakpoint: 900px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0 auto;
+      max-width: 1680px;
+
+      @media (min-width: $breakpoint) {
+        display: flex;
+      }
+
+      &--slack {
+        margin-top: 80px;
+      }
+
+      &-people {
+        margin: $padding-extra-large auto $padding-extra-extra-large auto;
+        max-width: 1024px;
+      }
+
+      &-image {
+        display: none;
+        padding: $padding-large;
+
+        @media (min-width: $smartphone) {
+          display: block;
+        }
+        @media (min-width: $breakpoint) {
+          flex: 1 1 400px;
+          height: 6$base-spacing;
+          order: 2;
+          padding: 0;
+          position: relative;
+        }
+
+        img {
+          border: 1px solid $light-grey;
+          // box-shadow: 0 $base-spacing 40px 20px rgba($black, 0.2);
+          box-shadow:
+            -20px 20px 50px 0 rgba($black, 0.2),
+            -60px 60px $base-spacing 0 rgba($black, 0.03);
+          width: 100%;
+
+          @media (min-width: $breakpoint) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            height: 100%;
+            margin: 0;
+            width: auto;
+          }
+        }
+      }
+
+      &-info {
+        justify-content: space-between;
+        display: flex;
+        flex: 0 1 500px;
+        flex-direction: column;
+        padding: 0 $padding-large;
+        text-align: center;
+
+        @media (min-width: $tablet) {
+          padding: 0 $padding-extra-large;
+          text-align: left;
+        }
+
+        &-bottom {
+          align-self: flex-end;
+        }
+
+        h3 {
+          font-size: 1.625em;
+          font-weight: normal;
+        }
+      }
+    }
+
+    &-grid {
+      margin: $base-spacing auto 0;
+      max-width: 1140px;
+      padding: 0 $base-spacing;
+      width: 100%;
+
+      @include breakpoint(mobile) {
+        margin-top: 50px;
+      }
+      @include breakpoint(tablet) {
+        align-items: flex-start;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 60px;
+        padding: 0;
+      }
+
+      &-item {
+        padding: 10px 0;
+
+        .marketing-section-grid & {
+          @include breakpoint(tablet) {
+            flex: 1 1 50%;
+            padding: $base-spacing;
+          }
+        }
+
+        .marketing-section-grid--3 & {
+          @include breakpoint(tablet) {
+            flex: 1 1 33.333%;
+            padding: $base-spacing;
+          }
+        }
+
+        h3 {
+          font-size: 1.125em;
+          font-weight: 600;
+          margin-bottom: 0.5em;
+        }
+
+        p {
+          color: $black;
+          font-size: 0.9375em;
+        }
+      }
+
+      &-quote {
+        text-align: center;
+        margin: 0 auto;
+        max-width: 420px;
+
+        img {
+          border-radius: $base-border-radius;
+          display: inline-block;
+          margin-bottom: 10px;
+          width: 100px;
+        }
+
+        h3 {
+          margin-bottom: 2px;
+        }
+        &-title {
+          font-style: italic;
+        }
+
+        p {
+          font-size: 1em;
+          line-height: 1.25em;
+        }
+      }
+    }
+  }
+}

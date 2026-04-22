@@ -1,0 +1,46 @@
+<table class="ui celled striped table">
+    <thead>
+      <tr>
+        <th>Campaign</th>
+        <th>Weeks</th>
+        <th>Ads</th>
+        <th><i class="mouse pointer icon"></i> / <i class="eye icon"></i></th>
+        <th>CTR</th>
+        <th>Start Week</th>
+        <th>End Week</th>
+        <th>Last Edited</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+    <%= for sponsorship <- @sponsorships do %>
+      <tr>
+        <td>
+          <%= link(sponsorship.sponsor.name, to: Routes.admin_sponsor_path(@conn, :edit, sponsorship.sponsor)) %>
+          <%= if sponsorship.name do %>
+          &ndash; <%= sponsorship.name %>
+          <% end %>
+        </td>
+        <td><%= length(sponsorship.weeks) %></td>
+        <td>
+          <%= for {ad, index} <- Enum.with_index(sponsorship.ads) do %>
+            <%= link(index + 1, to: Routes.news_sponsored_path(@conn, :show, NewsAd.slug(ad)), title: ad.headline) %>&nbsp;
+          <% end %>
+        </td>
+        <td><%= sponsorship.click_count %> / <%= sponsorship.impression_count %></td>
+        <td><%= SharedHelpers.ctr(sponsorship) %></td>
+        <td><%= sponsorship.weeks |> List.first() |> TimeView.pretty_date() %></td>
+        <td><%= sponsorship.weeks |> List.last() |> TimeView.pretty_date() %></td>
+        <td><%= AdminHelpers.ts(sponsorship.updated_at) %></td>
+        <td class="center aligned">
+          <div class="ui small basic buttons">
+            <%= AdminHelpers.icon_link("eye", to: Routes.admin_news_sponsorship_path(@conn, :show, sponsorship)) %>
+            <%= AdminHelpers.icon_link("edit", to: Routes.admin_news_sponsorship_path(@conn, :edit, sponsorship)) %>
+            <%= AdminHelpers.icon_link("trash", to: Routes.admin_news_sponsorship_path(@conn, :delete, sponsorship), method: :delete, data: [confirm: "Are you sure?"]) %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>

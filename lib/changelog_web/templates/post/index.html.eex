@@ -1,0 +1,10 @@
+<section>
+  <a id="feed" class="anchor"></a>
+  <div class="feed">
+  <%= if Enum.any?(@page.entries) do %>
+    <%= render_many(@page, __MODULE__, "_item.html") %>
+
+    <%= render(SharedView, "_more_button.html", assigns) %>
+  <% end %>
+  </div>
+</section>

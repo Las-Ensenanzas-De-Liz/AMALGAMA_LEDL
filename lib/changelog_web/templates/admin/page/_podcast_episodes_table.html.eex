@@ -1,0 +1,32 @@
+<table class="ui striped small unstackable table">
+  <thead>
+    <tr>
+      <th>Episode</th>
+      <th>Published</th>
+      <th>Downloads</th>
+      <th class="center aligned">
+        <div class="ui basic buttons">
+          <%= AdminHelpers.icon_link("eye", to: ~p"/#{@podcast.slug}", title: "View Public") %>
+          <%= AdminHelpers.icon_link("list", to: ~p"/admin/podcasts/#{@podcast.slug}/episodes", title: "All Episodes") %>
+          <%= AdminHelpers.icon_link("add", to: ~p"/admin/podcasts/#{@podcast.slug}/episodes/new", title: "Add Episode") %>
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+  <%= for episode <- recent_episodes(@podcast) do %>
+    <tr>
+      <td><%= EpisodeView.numbered_title(episode) %></td>
+      <td><%= TimeView.pretty_date(episode.published_at) %></td>
+      <td><%= SharedHelpers.pretty_downloads(episode) %></td>
+      <td class="center aligned">
+        <div class="ui small basic icon buttons">
+          <%= AdminHelpers.icon_link("line chart", to: Routes.admin_podcast_episode_path(@conn, :show, @podcast.slug, episode.slug)) %>
+          <%= AdminHelpers.icon_link("eye", to: Routes.episode_path(@conn, :show, @podcast.slug, episode.slug)) %>
+          <%= AdminHelpers.icon_link("edit", to: Routes.admin_podcast_episode_path(@conn, :edit, @podcast.slug, episode.slug)) %>
+        </div>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

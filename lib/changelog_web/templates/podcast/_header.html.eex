@@ -1,0 +1,31 @@
+<header class="show-header show-header--minimal">
+  <h2 class="visually_hidden"><%= @podcast.name %></h2>
+  <div class="show-header-inner">
+
+    <div class="show-header-art">
+      <img
+        src="<%= cover_url(@podcast, :medium) %>"
+        alt="<%= @podcast.name %> Artwork"
+        width=440
+        height=440 />
+    </div>
+
+    <div class="show-header-content">
+      <div class="show-header-description">
+        <h3><%= (@podcast.welcome || @podcast.description) |> PublicHelpers.no_widowed_words() |> raw() %></h3>
+      </div>
+      <div class="show-header-buttons">
+        <%= link("Learn More",
+            title: "Learn More about #{@podcast.name}",
+            to: ~p"/#{@podcast.slug}",
+            role: "button",
+            class: "show-header-buttons-item button_small") %>
+        <%= link("Subscribe",
+            title: "Subscribe to #{@podcast.name}",
+            to: ~p"/#{@podcast.slug}",
+            role: "button",
+            class: "show-header-buttons-item button_small") %>
+      </div>
+    </div>
+  </div>
+</header>

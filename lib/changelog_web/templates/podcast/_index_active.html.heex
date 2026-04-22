@@ -1,0 +1,24 @@
+<section class="show_list">
+  <header class="show_list-header">
+    <h2>Software's best weekly news brief, deep technical interviews, and weekend talk show.</h2>
+    <p>✨ <%= link("The Changelog", to: "/podcast", title: "View The Changelog") %> ✨ podcast combines our three awesome shows into one easy subscription.</p>
+  </header>
+
+  <div class="show_list-shows">
+  <%= for podcast <- active_podcasts_for_index(@podcasts) do %>
+    <article class="show_list-shows-item">
+      <div class="show_list-shows-item-wrap">
+        <%= link(to: ~p"/#{Podcast.slug_with_interviews_special_case(podcast)}", class: "show_list-shows-item-art", title: "View #{podcast.name}") do %>
+          <%= SharedHelpers.lazy_image(cover_url(podcast, :medium), "#{podcast.name} Artwork", width: 220, height: 220) %>
+        <% end %>
+        <div class="show_list-shows-item-content">
+          <div class="show_list-shows-item-content-heading">
+            <h2><a href={~p"/#{Podcast.slug_with_interviews_special_case(podcast)}"}><%= publish_day(podcast) %></a></h2>
+          </div>
+          <%= podcast.description %>
+        </div>
+      </div>
+    </article>
+  <% end %>
+  </div>
+</section>

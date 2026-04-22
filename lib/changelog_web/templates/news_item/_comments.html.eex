@@ -1,0 +1,22 @@
+<section class="comments">
+  <hr class="comments-rule">
+  <a id="discussion" class="anchor"></a>
+  <header class="section_heading">
+    <h3 class="section_heading-text">Discussion</h3>
+
+    <p class="section_heading-note">
+  <%= cond do %>
+  <% is_nil(@current_user) -> %>
+    <%= link("Sign in", to: Routes.sign_in_path(@conn, :new)) %> or <%= link("Join", to: Routes.person_path(@conn, :join)) %> to comment or subscribe
+  <% Subscription.is_subscribed(@current_user, @item) -> %>
+    <%= link("Unsubscribe 🔕", to: Routes.news_item_path(@conn, :unsubscribe, hashid(@item)), title: "Unsubscribe from this discussion") %>
+  <% true -> %>
+    <%= link("Subscribe 🔔", to: Routes.news_item_path(@conn, :subscribe, hashid(@item)), title: "Get notified of new comments") %>
+  <% end %>
+    </p>
+  </header>
+
+  <%= if @current_user, do: render(NewsItemCommentView, "_form.html", assigns) %>
+
+  <%= render_many(@comments, NewsItemCommentView, "show.html", Map.merge(assigns, %{as: :comment})) %>
+</section>

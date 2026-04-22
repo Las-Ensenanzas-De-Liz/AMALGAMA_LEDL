@@ -1,0 +1,11 @@
+<tr>
+  <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
+    <p><%= greeting(@person) %></p>
+
+    <p>You requested a magic sign-in link. <em>Here you go:</em></p>
+
+    <%= render("_sign_in_link.html", assigns) %>
+
+    <p>💚, Logbot</p>
+  </td>
+</tr>

@@ -1,0 +1,48 @@
+<div class="ui basic segment">
+  <h1 class="ui dividing header">
+    Podcasts
+    <div class="sub header">The main thing is the main thing</div>
+  </h1>
+
+  <div class="actions">
+  <%= if Policies.Admin.Podcast.create(@current_user) do %>
+    <%= link to: Routes.admin_podcast_path(@conn, :new), class: "ui right floated primary basic button" do %>
+      <i class="icon unmute"></i>
+      Add Podcast
+    <% end %>
+  <% end %>
+  </div>
+</div>
+
+<div class="ui basic segment">
+  <h2 class="ui header">Global impact</h2>
+  <%= render(EpisodeView, "_downloads.html", assigns) %>
+</div>
+
+<%= if Enum.any?(@draft) do %>
+<div class="ui basic segment">
+  <h2 class="ui header">Draft pods</h2>
+  <%= render("_table.html", Map.merge(assigns, %{podcasts: @draft})) %>
+</div>
+<% end %>
+
+<%= if Enum.any?(@active) do %>
+<div class="ui basic segment">
+  <h2 class="ui header">Active pods</h2>
+  <%= render("_table.html", Map.merge(assigns, %{podcasts: @active})) %>
+</div>
+<% end %>
+
+<%= if Enum.any?(@inactive) do %>
+<div class="ui basic segment">
+  <h2 class="ui header">Inactive pods (still public)</h2>
+  <%= render("_table.html", Map.merge(assigns, %{podcasts: @inactive})) %>
+</div>
+<% end %>
+
+<%= if Enum.any?(@archived) do %>
+<div class="ui basic segment">
+  <h2 class="ui header">Archived pods (private)</h2>
+  <%= render("_table.html", Map.merge(assigns, %{podcasts: @archived})) %>
+</div>
+<% end %>

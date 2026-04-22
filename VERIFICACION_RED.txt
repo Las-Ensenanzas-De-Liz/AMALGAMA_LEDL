@@ -1,0 +1,6 @@
+VERIFICACIÓN DE RED - LEDL ACSFDL
+DIRECCIÓN: 0xab4496e1dC2c47eFa60a7d27B282d1df678F1d5E
+BALANCE NATIVO: 4.1068 ETH
+ESTADO: CONFIRMADO EN BASE MAINNET
+COMENTARIO: Los visores web priorizan el valor de mercado de los tokens. 
+El capital nativo se encuentra en el Balance de la Cuenta.
